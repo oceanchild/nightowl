@@ -1,0 +1,239 @@
+@import url('/assets/common/document.css');
+@import url('/assets/common/topbar.css');
+
+body {
+	background-color: #98AFC7;
+}
+#page-wrapper {
+	margin-bottom: 40px;
+	position: relative;
+	width: 100%;
+	z-index: 1;
+}
+#page {
+	position: relative;
+	width: 1000px;
+	margin: 0 auto;
+	padding: 0px 0 0 0;
+	overflow: hidden;
+}
+#page input[type="text"], #page input[type="password"], #page textarea, #page select {
+	width: 320px;
+	padding: 7px 6px;
+	line-height: 16px;
+	font-size: 14px;
+	color: #666;
+	border: 1px solid;
+	border-color: #BFBFBF #D6D6D6 #D6D6D6 #BFBFBF;
+}
+#page input.short {
+	width: 200px;
+}
+#page input[type="text"]:focus, #page input[type="password"]:focus, #page textarea:focus, #page select:focus {
+	outline: none;
+	border-color: #74A5E1;
+	box-shadow: 0 0 5px #74A5E1;
+}
+#page textarea {
+	height: 100px;
+}
+#page select {
+	width: 200px;
+}
+#page input[type="radio"], #page input[type="checkbox"] {
+	width: 30px;
+	height: 30px;
+	vertical-align: middle;
+}
+#page input[type="button"], #page input[type="submit"] {
+	float: right;
+	margin-top: 3px;
+	background-color: #ffb94b;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
+	background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
+	background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
+	background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
+	background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
+	background-image: linear-gradient(top, #fddb6f, #ffb94b);
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+	filter: dropshadow(color=#ffffff, offx=0, offy=1);
+	-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+	-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #d69e31 #e3a037 #d5982d #e3a037;
+	height: 35px;
+	padding: 0;
+	width: 120px;
+	cursor: pointer;
+	font: bold 15px Arial, Helvetica;
+	color: #8f5a0a;
+}
+#page input.special {
+	margin: 0;
+	height: 32px;
+}
+#page input[type="button"]:hover, #page input[type="submit"]:hover, #page input[type="button"]:focus, #page input[type="submit"]:focus {
+	background-color: #fddb6f;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
+	background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
+	background-image: -moz-linear-gradient(top, #ffb94b, #fddb6f);
+	background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
+	background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
+	background-image: linear-gradient(top, #ffb94b, #fddb6f);
+}
+#page input[type="button"]active, #page input[type="submit"]:active {
+	outline: none;
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+}
+#page input[type="file"] {
+	height: 32px;
+	line-height: 32px;
+}
+#page-content {
+	position: relative;
+	display: inline-block;
+	width: 980px;
+	min-height: 540px;
+	margin: 0 10px;
+	font-size: 12px;
+	color: #222222;
+	background: #F5F5F5;
+	overflow: hidden;
+	z-index: 1;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-moz-border-radius-bottomright: 20px;
+	box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
+}
+.page-content-head {
+	margin-top: 45px;
+	padding: 16px 20px 10px 20px;
+	width: 940px;
+	height: 20px;
+}
+.page-content-head h2 {
+	font-size: 20px;
+	font-weight: bold;
+	display: inline-block;
+}
+.page-content-head span {
+	height: 22px;
+	font-size: 14px;
+	line-height: 22px;
+	display: inline-block;
+}
+.page-content-head span b {
+	height: 22px;
+	color: #FF2222;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 22px;
+}
+.page-content-body {
+	padding: 20px 40px;
+	width: 900px;
+	background: url('/assets/pagebg.png') #D6DADD/* 页面背景淡蓝色 */;
+}
+.content-body-tabs {
+	width: 900px;
+	height: 30px;
+}
+.content-body-tab {
+	margin-right: 6px;
+	float: left;
+	width: 98px;
+	height: 30px;
+	background: #FFEEDA;
+	color: #444444;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 30px;
+	cursor: pointer;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 10px;
+	box-shadow: 1px -1px 1px 0px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 1px -1px 1px 0px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 1px -1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+.content-body-tab.active {
+	background: #FEFEFE;
+	border: 1px solid #CCCCCC;
+	border-bottom: 1px solid #FEFEFE;
+	bottom: -1px;
+}
+.content-body-sections {
+	width: 900px;
+	box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.2);
+}
+.content-body-section {
+	padding: 40px 40px 30px;
+	width: 818px;
+	background: #FFFFFF;
+	border: 1px solid #CCCCCC;
+	display: none;
+}
+.content-body-section.active {
+	display: block !important;
+}
+.section-left {
+	float: left;
+	width: 500px;
+}
+.leftcol, .middlecol, .rightcol {
+	margin-bottom: 10px;
+	float: left;
+	height: 32px;
+}
+.leftcol {
+	width: 60px;
+	font-size: 14px;
+	text-align: right;
+	line-height: 32px;
+	text-transform: uppercase;
+}
+.middlecol {
+	width: 20px;
+	color: #FF2222;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 32px;
+}
+.rightcol {
+	width: 420px;
+	text-align: left;
+}
+.section-right {
+	float: left;
+	width: 318px;
+}
+.profile-save {
+	position: absolute;
+	left: 40px;
+	bottom: 30px;
+}
+.page-content-margin {
+	margin: 20px;
+	width: 900px;
+	height: 40px;
+	background: #F5F5F5;
+}

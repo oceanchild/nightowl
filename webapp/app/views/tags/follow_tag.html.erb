@@ -1,0 +1,16 @@
+<% for tag in @tags %>
+	<%= tag.name%> 
+	<% if current_user.tag_ids.include?(tag.id)%>
+	<%= link_to "Unfollow", :controller => "tags", :action => "follow_tag", :id => tag.id%>
+	<% else %>
+	<%= link_to "Follow", :controller => "tags", :action => "follow_tag", :id => tag.id%>
+	<% end %>
+	<br />
+<% end %>
+
+关注的活动<%= @followed_events.length %>个<br />
+<% for _event in @followed_events%>
+	ID: <%= _event.id%><br />
+	主题: <%= _event.theme%><br />
+	时间: <%= _event.event_date%><br /><br /><br />
+<% end %>

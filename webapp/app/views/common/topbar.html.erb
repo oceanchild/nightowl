@@ -1,0 +1,252 @@
+<% content_for :header do %>
+
+    <!--[if IE 6]>
+    <style>
+        body {behavior: url("csshover3.htc");}
+        #menu li .drop {background:url("/assets/common/drop.gif") no-repeat right 8px; 
+    </style>
+    <![endif]-->
+    
+	<script type="text/javascript">
+	$.widget( "custom.catcomplete", $.ui.autocomplete, {
+		_renderMenu: function( ul, items ) {
+			var self = this,
+				currentCategory = "";
+			$.each( items, function( index, item ) {
+				if ( item.category != currentCategory ) {
+					ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+					currentCategory = item.category;
+				}
+				self._renderItem( ul, item );
+			});
+		}
+	});
+	</script>
+	<script type="text/javascript">
+	$(function() {
+		$( "#top_search" ).catcomplete({
+			delay: 0,
+			source: function( request, response ) {
+					$.ajax({
+			          url: "/search/autocomplete",
+			          data: {keyword: request.term},
+			          dataType: "html",
+			          type: "GET",
+			          success: function(data){
+			          	var nicknames = [];
+						var event_themes = [];
+						var listArray = [];
+						var temp;
+			          	nicknames = data.split('*#')[0].split('$#');
+			          	event_themes = data.split('*#')[1].split('$#');
+			          	for (i in nicknames) {
+			          		
+			          		temp = {label: nicknames[i], category: "人"};
+			          		listArray.push(temp);
+			          	}
+			          	for (j in event_themes) {
+			          		
+			          		temp = {label: event_themes[j], category: "事件"};
+			          		listArray.push(temp);
+			          	}
+			              response(listArray);
+			          }
+			        });
+				},
+				minLength: 2,
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				}
+		});
+	});
+	</script>
+    <script type="text/javascript">
+    $(function(){
+    		$("input#today, div#calendar-activate-btn").click(function(){
+    			$("div#week-calendar-details").hide();
+    			var selected_date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+    			$.ajax({
+			          url: "/events/cal_list",
+			          data: {selected_date: selected_date},
+			          dataType: "html",
+			          type: "GET",
+			          success: function(data){
+			          	$("div.my-events").html(data);
+			          }
+			        });
+    		});
+    		
+    		$("div.week-calendar-day").click(function(){
+    			$("div#week-calendar-details").hide();
+    			var date_index = $("div.week-calendar-day").index(this);
+    			var selected_date = $("input.hidden_date").eq(date_index).val();
+    			$.ajax({
+			          url: "/events/cal_list",
+			          data: {selected_date: selected_date},
+			          dataType: "html",
+			          type: "GET",
+			          success: function(data){
+			          	$("div.my-events").html(data);
+			          }
+			        });
+    		});
+    });
+    </script>
+
+<% end %>
+
+<div id="modal-overlay"></div>
+<!-- top-wrap :: start -->
+<div id="top-wrapper" class="reset">
+	<div id="top">
+		<div id="top-content">
+			<div id="top-nav">
+				<a href="/"><div id="logo"></div></a>
+				<div id="search">
+					<form action="/">
+						<span><b></b></span>
+						<input id="top_search" type="text" size="40" placeholder="搜索。。。" />
+					</form>
+				</div>
+				<!-- top navigation-menu starts -->
+				<ul id="menu">
+					<li onclick="window.location='/'"><a href="/">首页</a></li>
+				    <li class="has-sub"><a href="#" class="drop">活动</a>
+				    	<div class="submenu dropdown_2columns">
+				    		<div class="col_1">
+				                <ul class="greybox">
+				                	<li><a href="/events"><div style="text-align: right;">浏览活动</div></a></li>
+								</ul>
+				            </div>
+				            <div class="col_1">
+				                <ul class="greybox">
+				                	<li><a href="/events/new"><div style="text-align: right;">发布活动</div></a></li>
+								</ul>
+				            </div>
+				        </div>
+					</li>
+				    <li><a href="#">评价</a>
+				    </li>
+				    <li><a href="/friends">好友</a>
+				    </li>
+					<li class="has-sub menu_right"><a href="#" class="drop">个人信息</a>
+						<div class="submenu dropdown_1column align_right">
+				            <div class="col_1">
+				                <ul class="greybox">
+				                	<li><a href="/logout"><div style="text-align: right;">登出</div></a></li>
+									<li><a href="/users/editprofile"><div style="text-align: right;">修改个人资料</div></a></li>
+									<li><a href="#"><div style="text-align: right;">账户管理</div></a></li>
+								</ul>
+				            </div>
+				        </div>
+				    </li>
+				</ul>
+			</div><!-- end top nav -->
+			<div id="calendar-left-inset"></div>
+			<div id="calendar-right-inset"></div>
+			<div id="calendar-wrapper">
+				<div id="calendar">
+					<div id="week-calendar-top">
+						<div id="week-calendar-logo"></div>
+						<div id="week-calendar">
+							<div id="week-calendar-left">
+								<div id="week-calendar-year"></div>
+								<div id="week-calendar-today"><input id="today" type="button" value="今天" onclick="getNewDate(today)" /></div>
+								<div class="week-calendar-tools"><input type="button" value="<<" onclick="prevWeek()" /></div>
+							</div>
+							<div id="week-calendar-content">
+								<div id="week-calendar-days">
+									<div class="week-calendar-day">
+										<div class="week-day-title"><strong>星期日</strong></div>
+										<div class="week-day-date"></div>
+									</div>
+									<div class="week-calendar-day">
+										<div class="week-day-title"><strong>星期一</strong></div>
+										<div class="week-day-date"></div>
+									</div>
+									<div class="week-calendar-day">
+										<div class="week-day-title"><strong>星期二</strong></div>
+										<div class="week-day-date"></div>
+									</div>
+									<div class="week-calendar-day">
+										<div class="week-day-title"><strong>星期三</strong></div>
+										<div class="week-day-date"></div>
+									</div>
+									<div class="week-calendar-day">
+										<div class="week-day-title"><strong>星期四</strong></div>
+										<div class="week-day-date"></div>
+									</div>
+									<div class="week-calendar-day">
+										<div class="week-day-title"><strong>星期五</strong></div>
+										<div class="week-day-date"></div>
+									</div>
+									<div class="week-calendar-day">
+										<div class="week-day-title"><strong>星期六</strong></div>
+										<div class="week-day-date"></div>
+									</div>
+								</div>
+								<div>
+									<input type="hidden" class="hidden_date" />
+									<input type="hidden" class="hidden_date" />
+									<input type="hidden" class="hidden_date" />
+									<input type="hidden" class="hidden_date" />
+									<input type="hidden" class="hidden_date" />
+									<input type="hidden" class="hidden_date" />
+									<input type="hidden" class="hidden_date" />
+								</div>
+							</div>
+							<div id="week-calendar-right">
+								<div class="week-calendar-tools"><input type="button" value=">>" onclick="nextWeek()" /></div>
+							</div>
+						</div>
+					</div>
+					<div id="week-calendar-bottom">
+						<div id="week-calendar-events-left">
+							<div id="week-calendar-lists">
+								<div class="week-calendar-list my-events">
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+								</div>
+								<div class="week-calendar-list">
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+									<h3>title hmm</h3>asdfasdf<br />
+								</div>
+							</div>
+						</div>
+						<div id="week-calendar-events-right">
+							<div id="week-calendar-details" style="display: none;">
+								<img src="/assets/avatar_test.jpg" /><br /><br />
+								<img src="/assets/avatar_test.jpg" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div id="calendar-btn">
+					<div id="calendar-activate-btn">
+						<img src="/assets/common/calendar_icon.png" border="0" />
+						<span>日历</span>
+					</div>
+				</div>
+			</div><!-- end calendar -->
+		</div>
+	</div>
+</div>
+<!-- top-wrap :: end -->

@@ -1,0 +1,18 @@
+<% @matched_friends.each do |_friend| %>
+	<div class="stream-shell">
+		<div class="stream">
+			<div class="stream-more">»</div>
+			<div class="stream-avatar">
+				<%=image_tag "/assets/avatar_test.jpg"%>
+			</div>
+			<span class='nickname'><b><%= _friend.nickname%></b></span><br/>
+			<%= form_tag(:action => :delete, :id=>_friend.id ) do %>
+			<%= hidden_field_tag "delete_user", value= _friend.id%>
+			<%= submit_tag "删除好友", :class=>'delete_btn'%>
+			<%end%>
+			<span style="margin-left: 80px; color: grey;">好友数：<%= _friend.friends_num%></span><br/>
+			<span style="margin-left: 80px; color: grey;">粉丝数：0</span>						
+				<br>
+		</div>
+	</div>	<!--end of stream-shell-->
+<%end%>

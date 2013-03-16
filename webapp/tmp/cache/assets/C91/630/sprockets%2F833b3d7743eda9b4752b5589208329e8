@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346707926.5475404:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%a50ec894e49bdb89131b601cf864c3b2I"logical_path;
+FI"zoomIn.png;
+TI"pathname;
+FI"'$root/app/assets/images/zoomIn.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-07T16:10:18-05:00;
+FI"length;
+FI"	1226;
+FI"digest;
+F"%6d9b10ff79a76cf1fe7db0f6d0e87f77I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

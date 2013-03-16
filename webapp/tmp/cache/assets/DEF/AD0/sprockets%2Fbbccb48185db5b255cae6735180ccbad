@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346706954.4078555:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%3ea16e2a6c147bd5aac471d2514244dcI"logical_path;
+FI"common/calendar_icon.png;
+TI"pathname;
+FI"5$root/app/assets/images/common/calendar_icon.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-14T01:53:53-05:00;
+FI"length;
+FI"	1355;
+FI"digest;
+F"%aeb95a28356d986b5a75a7ebcf26feeeI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

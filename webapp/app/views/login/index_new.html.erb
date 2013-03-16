@@ -1,0 +1,689 @@
+<% content_for :header do %>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>夜猫子</title>
+	
+	<%= stylesheet_link_tag "login_new.css" %>
+
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	
+	<script type="text/javascript">
+	if (window != top){
+		top.location.href = "/";
+	}
+	</script>
+<% end %>
+
+<body>
+
+<!-- Global Block :: start -->
+<!--div id="doc"-->
+	
+	<!-- header :: start -->
+	<div class="header">
+        <h1 class="logo"><a href="/" title="夜猫猫 - 带您体验都市夜生活">夜猫猫 - 带您体验都市夜生活</a></h1>
+        <div class="login-box">
+        	<%= form_tag(session_path, :vail=>'1', :rel=>'login') do %>
+                <label for="email" class="text-hint">您的邮箱</label>
+				<%= text_field_tag 'email', '', :class=>'text', :errortype=>'notempty', :errmsgtype=>'1', :errmsg=>'请输入邮箱', :tabindex=>'1' %>
+				<label for="password" class="text-hint pwd-hint">密码</label>
+				<%= password_field_tag 'password', '', :class=>'text', :errortype=>'notempty', :errmsgtype=>'1', :errmsg=>'请输入密码', :tabindex=>'2' %>
+				<%= button_tag '登 录', :type=>'submit', :title=>'立刻登录', :tabindex=>'3' %>
+				<input type="checkbox" id="autologin" name="login[time]" class="checkbox" tabindex="4" />
+				<label for="autologin">自动登录</label>
+                <a href="#">找回密码</a> 
+			<% end %>
+        </div>
+    </div>
+	<!-- header :: end -->
+	
+	<div class="main">
+        <form vail="1" id="signForm" action="http://passport.115.com/?ac=register&goto=http%3A%2F%2Fu.115.com" method="post" autocomplete="off" rel="reg">
+            <dl class="reg-box">
+                <dt><b>10秒抢注115网盘免费帐号</b>马上拥有15G超大高速网络硬盘！</dt>
+
+                <dd>
+                    <label for="reg_email" class="text-hint">您的邮箱</label>
+                    <input type="text" id="reg_email" name="reg[email]" class="text" errortype="email" errmsgtype="2" isjs="http://passport.115.com/?ac=register_ajax_validate&type=user" errmsg="请输入正确的邮箱地址" />
+                </dd>
+                <dd>
+                    <label for="reg_user_name" class="text-hint" id="">您的网名（即“注册昵称”）</label>
+                    <input type="text" name="reg[user_name]" id="reg_user_name" class="text" errortype="notempty" errmsgtype="3" isjs="http://passport.115.com/?ac=register_ajax_validate&type=user" errmsg="请输入您的网名" maxlength="15" />
+                </dd>
+                <dd>
+                    <label for="reg_password" class="text-hint">密码</label>
+                    <input type="password" id="reg_password"  name="reg[passwd]" class="text" maxlength="18" errortype="notempty" errmsgtype="2" errmsg="请输入最少6个字符的登录密码" minlen="6"/>
+                </dd>
+                <dd>
+                    <label for="reg_passwordconfirm" class="text-hint">确认密码</label>
+                    <input type="password" id="reg_passwordconfirm" name="reg[vpasswd]" class="text" maxlength="18" errortype="rate" rate="reg_password" errmsgtype="3" errmsg="两次输入不一致" />
+                </dd>
+                <dd class="reg-btn">
+                    <input type="checkbox" name="" id="js_agree_checkbox" checked />
+                    <label for="js_agree_checkbox">同意<a href="http://www.115.com/agreement.html" target="_blank">《115网盘使用协议》</a></label>
+                    <button type="submit" title="免费注册115网盘">快速注册</button>
+                </dd>
+            </dl>
+        </form>
+		<dl class="access-box">
+			<dt>用合作网站帐号登录：</dt>
+			<dd><a href="http://my.115.com/interface/redirect_login.php?t=qq" class="acc-qq" title="QQ号码">QQ号码</a></dd>
+			<dd><a href="http://my.115.com/interface/redirect_login.php?t=sina" class="acc-sina" title="新浪微博">新浪微博</a></dd>
+			<dd><a href="http://my.115.com/interface/redirect_login.php?t=baidu" class="acc-baidu" title="百度帐号">百度帐号</a></dd>
+			<dd><b class="acc-tencent" title="即将推出">腾讯微博</b></dd>
+			<dd><b class="acc-renren" title="即将推出">人人网</b></dd>
+			<dd><b class="acc-neteasy" title="即将推出">网易微博</b></dd>
+			<dd><b class="acc-douban" title="即将推出">豆瓣网</b></dd>
+		</dl>
+        <div class="banner-text" title="115网盘是一个全球2000多万用户正在使用的专业云存储服务"></div>
+        <div class="nav-icon"><a href="javascript:;" onclick="MoveClass.Prev();return false;" class="ar-btn ar-prev">上一页</a><a href="javascript:;" onclick="MoveClass.Next();return false;" class="ar-btn ar-next">下一页</a>
+            <ul id="js_nav_line_box" style="overflow: hidden;"></ul>
+        </div>
+
+        <ul class="soft-link">
+            <li><i class="icon ico-mobile"></i><a href="http://mobile.115.com/" target="_blank" title="下载115网盘手机客户端">手机客户端</a></li>
+            <li><i class="icon ico-pc"></i><a href="http://pc.115.com" target="_blank" title="下载115网盘PC客户端">PC版客户端</a></li>
+        </ul>
+    </div>
+
+    <div class="footer">
+    	<script type="text/javascript">
+		document.write('<span><a style="color:#787878" href="http://www.115.com/">网盘</a> 115.COM © 2012 粤ICP备11076613号</span>'+
+		               '<a href="http://www.115.com/">115网盘</a> · '+
+		               '<a href="http://www.115.com/about.html">关于115</a> · '+
+		               '<a href="http://www.115.com/join_jobs.html">加入我们</a> · '+
+		               '<a href="http://www.115.com/contact.html">联系我们</a> · '+
+		               '<a href="http://www.115.com/agreement.html">服务协议</a> · '+
+		               '<a href="http://www.115.com/service.html">帮助中心</a> · '+
+		               '<a href="http://feedback.115.com/?ct--feedback--ac--ask--app--115" target="_blank">在线反馈</a>');
+		</script>
+    </div>
+    <dl class="partner-link">
+        <dt>合作伙伴：</dt>
+        <dd><b class="partner-ct">中国电信</b><b class="partner-uni">中国联通</b><b class="partner-mob">中国移动</b></dd>
+    </dl>
+
+<script type="text/javascript">
+String.formatmodel = function(str,model){
+	for(var k in model){
+		var re = new RegExp("{"+k+"}","g");
+		str = str.replace(re,model[k]);
+	}
+	return str;
+}
+
+var FIRST_HIDE_STATE = false;
+var VailForm = (function(){
+    var checkList = [];
+    var errDom = {};
+    var emailReg = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
+    
+    var checkInputVal = function(){
+        for(var i = 0, len = checkList.length; i < len; i++){
+            var input = checkList[i];
+            var label = input.prev();
+            if(input.val() != ""){
+                label.css("display") == "none" || label.hide();
+    }
+            else{
+                label.css("display") == "none" && label.show();
+    }
+        }
+    }
+    
+    var showMsg = function(input, msg){
+        var id = input.attr("id");
+        if(!msg){
+            msg = input.attr("errmsg");
+    }
+        var type = input.attr("errmsgtype");
+        var className = "popup-hint";
+        var l = input.offset().left;
+        var hitH = 40;
+        var t = input.offset().top + input.height() + 12;
+        switch(type){
+            case "1":
+                if(msg.length <= 7){
+                    className += " popup-min";
+    }
+                break;
+            case "2":
+                className += " popup-top";
+                t = input.offset().top - hitH;
+                break;
+        }
+        if(!errDom[id]){
+            errDom[id] = $('<div class="' + className + '" style="top:' + t + 'px; left:' + l + 'px;display:none;"><b class="sl"></b><span rel="txt">'+msg+'</span><b class="sr"></b></div>');
+            $(document.body).append(errDom[id]);
+    }
+        else{
+            errDom[id][0].className = className;
+            errDom[id].css({left:l + "px", top: t + "px"});
+        }
+        errDom[id].find("[rel='txt']").html(msg);
+        errDom[id].show();
+    }
+    
+    var hideMsg = function(input){
+        var id = input.attr("id");
+        if(errDom[id]){
+            errDom[id].hide();
+    }
+    }
+    
+    var checkFun = function(input){
+        var val = input.val();
+        var type = input.attr("errortype");
+        switch(type){
+            case "email":
+                if(!emailReg.test(val)){
+                    return false;
+    }
+                break;
+            case "notempty":
+                if($.trim(val) == ""){
+                    return false;
+    }
+                if(input.attr("minlen") && val.length < Number(input.attr("minlen"))){
+                    return false;
+    }
+                break;
+            case "rate":
+                if($("#" + input.attr("rate")).val() != val){
+                    return false;
+    }
+                break;
+        }
+        
+        return true;
+    }
+    
+    var checkIng = false;
+    var ajaxCheck = function(ele, sucCallback, errCallback){
+        if(!checkIng){
+            checkIng = true;
+            $.getScript(ele.attr("isjs") + "&js_return=js_check_back_val&" + ele.attr("name") + "=" + encodeURIComponent(ele.val()), function(){
+                checkIng = false;
+                if(window["js_check_back_val"]){
+                    var res = window["js_check_back_val"];
+                    if(!res.state){
+                        ele.attr("err", "2");
+                        showMsg(ele, res.message);
+                        if(errCallback) errCallback();
+    }
+                    else{
+                        hideMsg(ele);
+                        ele.attr("err","");
+                        if(sucCallback) sucCallback();
+    }
+                    
+                    if(res.vali_code){
+                        var form = ele.parents("form");
+                        if(!form.find("dd[rel='code']").length){
+                            var dd = $('<dd rel="code" style="display:none">'+
+                                        '<label for="reg_valicode" class="text-hint" style="width:70px;">验证码</label>'+
+                                        '<input type="text" id="reg_valicode" name="reg[code]" class="text" errortype="notempty" errmsgtype="3" errmsg="请输入验证码" style="width:70px;margin-right:10px;" isjs="http://passport.115.com/?ac=register_ajax_validate&type=code" maxlength="4" />'+
+                                        '<img id="js_code_img" style="cursor:pointer;" src="http://passport.115.com/?ct=securimage&ac=reg" onclick="this.src=' + "'" + 'http://passport.115.com/?ct=securimage&ac=reg&date=' + "'" + ' + new Date().getTime(); return false;" onerror="this.src=' + "'" + 'http://passport.115.com/?ct=securimage&ac=reg&date=' + "'" + ' + new Date().getTime();"  title="点击可更换验证码"/>'+
+                                    '</dd>');
+                            dd.insertBefore(form.find("dd.reg-btn"));
+                            dd.fadeIn(1500);
+                            form.find("dl").addClass("reg-code");
+                            $("#js_reg_mobile").hide();
+                            //$("#reg_passwordconfirm").attr("errmsgtype","2");
+                            bindInput(form, dd.find("input.text"));
+                        }
+                    }                  
+                    window["js_check_back_val"] = null;
+                   
+                }
+            })
+        }
+    }
+    
+    var bindInput = function(form,input){
+        checkList.push(input);
+        
+        if(input.attr("errortype") == "rate"){
+            $("#" + input.attr("rate")).bind("keyup", function(){
+                hideMsg(input);
+    })
+        }
+        
+        input.bind("blur", function(e){
+            var ele = $(this);
+            if(ele.attr("isjs") || ele.attr("err")){
+                var checkRes = checkFun(ele);
+                if(checkRes){
+                    hideMsg(ele);
+                    //$(this).attr("err", "");
+                    ele.removeAttr("err");
+                    if(ele.attr("isjs")){
+                        ajaxCheck(ele);
+    }
+                }
+                else{
+                    showMsg(ele);
+    }
+            }
+        }).bind("focus", function(){
+            var ele = $(this);
+            ele.removeAttr("err");
+            if(ele.attr("isjs")){
+                form.find("input[errortype]").each(function(){
+                    !$(this).attr("isjs") && hideMsg($(this));
+    });
+            }
+            
+            if(form.attr("rel") == "reg"){
+                $("form[rel='login']").find("input[errortype]").each(function(){
+                    hideMsg($(this));
+    })
+            }
+            else{
+                $("form[rel='reg']").find("input[errortype]").each(function(){
+                    hideMsg($(this));
+    })
+            }
+            
+        }).bind("keydown", function(){
+            var ele = $(this);
+            if(ele.attr("isjs")){
+                form.find("input[errortype]").each(function(){
+                    hideMsg($(this));
+    });
+            }
+        })
+    }
+    
+    var _hideTimer;
+    
+    return {
+        ShowMsg: function(ele, msg){
+            showMsg(ele,msg);
+    },
+        HideMsg: function(ele){
+            hideMsg(ele);
+    },
+        Init: function(){
+            $("form[vail]").each(function(i){
+                var form = $(this);
+                
+                form.find("input[errortype]").each(function(j){
+                    bindInput(form, $(this));
+    });
+                
+                form.bind("submit", function(){
+                    if(_hideTimer){
+                        window.clearTimeout(_hideTimer);
+    }
+                    var res = true;
+                    var firstDom;
+                    var form = $(this);
+                    form.find("input[errortype]").each(function(){
+                        var ele = $(this);
+                        if(ele.attr("err") == "2"){
+                            res = false;
+                            firstDom = ele;
+    }
+                        else{
+                            var checkRes = checkFun(ele);
+                            if(checkRes){
+                                hideMsg(ele);
+    }else{
+                                showMsg(ele);
+                                res = false;
+                                ele.attr("err", "1");
+                                if(!firstDom){
+                                    firstDom = ele;
+    }
+                            }
+                        }
+                    });
+                    if(!res){
+                        if(firstDom.attr("isjs")) {
+                           form.find("input[errortype]").each(function(){
+                                !$(this).attr("isjs") && hideMsg($(this));
+    });
+                           var ele = firstDom;
+                           if(ele.attr("err") != "1"){
+                               ajaxCheck(ele, function(){
+                                   window.setTimeout(function(){
+                                        form.submit();
+    }, 10);
+                               });
+                           }
+                        }
+                        firstDom.focus(); 
+                    }
+                    
+                    if(res){
+                        if(form.attr("rel") == "reg"){
+                            if(!$("#js_agree_checkbox").attr("checked")){
+                                res = false;
+                                alert("抱歉，您必须同意115使用协议才可以注册！");
+                                return false;
+    }
+                            if($("#reg_email").attr("err") == undefined){
+                                ajaxCheck($("#reg_email"), function(){
+                                   window.setTimeout(function(){
+                                        form.submit();
+    }, 10);
+                                });
+                                return false;
+                            }
+                            if($("#reg_user_name").attr("err") == undefined){
+                                ajaxCheck($("#reg_user_name"), function(){
+                                   window.setTimeout(function(){
+                                        form.submit();
+    }, 10);
+                                });
+                                return false;
+                            }
+                        }
+                    }
+                    
+                    if(res){
+                        if(form.attr("rel") == "reg"){
+                            var codeDom = $("#reg_valicode");
+                            if(codeDom.length){
+                                if(codeDom.attr("err") != "3"){
+                                    ajaxCheck(codeDom, function(){
+                                        codeDom.attr("err", "3");
+                                        form.submit();
+    }, function(){
+                                        $("#js_code_img").attr("src", "http://passport.115.com/?ct=securimage&ac=reg&date=" + new Date().getTime());
+                                        window.setTimeout(function(){
+                                            codeDom.select();
+    },50);
+                                    });
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    if(!res){
+                        _hideTimer = window.setTimeout(function(){
+                            form.find("input[errortype]").each(function(){
+                                var ele = $(this);
+                                hideMsg(ele);
+    });
+                        },2000);
+                    }
+                    
+                    return res;
+                })
+            })
+            
+            
+            window.setInterval(checkInputVal, 10);
+        },
+        BindResize: function(){
+            $(window).bind("resize", function(){
+                
+                $("form[vail]").each(function(i){
+                    var form = $(this);
+                    form.find("input[errortype]").each(function(){
+                        var ele = $(this);
+                        hideMsg(ele);
+    });
+                });
+                
+            });
+        }
+    }
+})();
+
+var MoveClass = (function(){
+    var _data = [
+        [
+            {cl: "nv-sotrage", text: "大容量存储"},
+    {cl: "nv-sync", text: "文件同步"},
+    {cl: "nv-share", text: "和朋友分享"},
+    {cl: "nv-view", text: "在线阅读"}
+            
+        ],
+        [
+    {cl: "nv-safe", text: "安全稳定"},
+    {cl: "nv-speed", text: "高速存取"},
+    {cl: "nv-platform", text: "多平台访问"},
+    {cl: "nv-upload", text: "断点续传"}
+        ],
+        [  
+    {cl: "nv-vip", text: "VIP增值服务"},
+    {cl: "nv-client", text: "多种客户端"},
+    {cl: "nv-circle", text: "资源圈子"},
+    {cl: "nv-app", text: "应用市场"}
+        ]
+    ],    
+    _temp = '<li style="display:none;"><i class="{cl}" style="cursor:default;"></i><span style="cursor:default;">{text}</span></li>',
+    _box, _doms = {}, _active = 0, _left = 154, _old_active,_listenTimer;
+    
+    var getDom = function(){
+        if(_listenTimer) window.clearTimeout(_listenTimer);
+        if(_active >= _data.length){
+            _active = 0;
+    }
+        if(_active < 0){
+            _active = _data.length - 1;
+    }
+        var key = "node_" + _active;
+        if(!_doms[key]){
+            _doms[key] = [];
+            var item = _data[_active];
+            for(var i = 0, len = item.length; i < len; i++){
+                var n = $(String.formatmodel(_temp, item[i]));
+                _box.append(n);
+                _doms[key].push(n);
+    }
+        }
+        
+        if(_old_active == undefined){
+            _old_active = 0;
+    }
+        
+        if(_old_active != _active){
+            moveHide(_old_active, _active > _old_active, function(){
+                var isLeft = _old_active < _active;
+                _old_active = _active;
+                _box.children().hide();
+                moveShow(isLeft);
+    });
+        }
+        else{
+            moveShow(_old_active < _active);
+            _old_active = _active;
+    }
+    }
+    
+    var moveShow = function(isLeft){
+        var key = "node_" + _active;
+        
+        if(_doms[key]){
+            var arr = [];
+            for(var i = 0, len = _doms[key].length; i < len; i++){
+                var node = _doms[key][i];
+                node.css({left: (_left * i) + "px"});
+                var l = _left * i;
+                var e;
+                if(isLeft){
+                    e = l + 616;
+    }
+                else{
+                    e = l - 616;
+    }
+                arr.push({dom: node,start: e, stop:l, step:2});
+                node.css({left: e + "px"}).show();
+            }
+            moveDoms(arr, function(){
+                listen();
+    });
+        }
+    }
+    
+    var moveHide = function(k, isLeft, callback){
+        var arr = [];
+        var key = "node_" + k;
+        var item = _data[k];
+        if(item){
+            for(var i = 0, len = item.length; i < len; i++){
+               var node = _doms[key][i];
+               var l = Number(node.css("left").replace("px", ""));
+               if(isLeft){
+                   arr.push({dom: node,start: l, stop:l - 616, step:6});
+               } 
+               else{
+                   arr.push({dom: node,start: l, stop:l + 616, step:6});
+               }
+               
+            }
+            moveDoms(arr,function(){
+                callback && callback();
+    });
+        }
+    }
+    
+    
+    
+    var _cacheArr, _timer, _speed = 3, _moveLen = 9, _callback;
+    if(document.all){
+        _speed = 1, _moveLen = 14;
+    }
+    var moveDoms = function(arr, callback){
+        if(arr){
+            _cacheArr = arr;
+    }
+        if(callback){
+            _callback = callback;
+    }
+        if(arr && !callback){
+            _callback = false;
+    }
+        
+        _timer = window.setTimeout(function(){
+            var endNum = 0;
+            for(var i = 0, len = _cacheArr.length; i < len; i++){
+                var item = _cacheArr[i];
+                if(!item.step){
+                    item.step = 1;
+    }
+                var l = Number(item.dom.css("left").replace("px", ""));
+                
+               
+                
+                if(item.start > item.stop){
+                     var ml = _moveLen - (i * 2);
+                    l = l - (item.step * ml);
+                    if(l < item.stop){
+                        l = item.stop;
+    }
+                }
+                else{
+                     var ml = _moveLen + (i * 2);
+                    l = l + (item.step * ml);
+                    if(l > item.stop){
+                        l = item.stop;
+    }
+                }
+                if(l == item.stop){
+                    endNum++;
+    }
+                item.dom.css({left: l + "px"});
+            }
+            if(endNum != _cacheArr.length){
+                moveDoms();
+    }
+            else{
+                window.clearTimeout(_timer);
+                if(_callback) _callback();
+                
+                
+    }
+        }, _speed);
+    }
+    
+    
+    var listen = function(){
+        _listenTimer = window.setTimeout(function(){
+            if(_listenTimer){
+                window.clearTimeout(_listenTimer);
+    }
+            MoveClass.Next();
+            
+        },8000);
+    }
+    
+    return {
+        Init: function(box){
+            _box = box;
+            getDom();
+    },
+        Next: function(){
+            if(_box){
+                
+                _active++;
+                getDom();
+    }
+        },
+        Prev: function(){
+            if(_box){
+                _active--;
+                getDom();
+    }
+        }
+    }
+})();
+
+
+var PageInit = function(){
+    window.setTimeout(function(){
+        if(document.getElementById('account').value == ''){
+            document.getElementById('account').focus();
+    }
+        else{
+            if('' == '300'){
+                document.getElementById('account').select();
+    }
+            else{
+                document.getElementById('passwd').focus();
+    }
+        }
+    }, 50)
+    
+    MoveClass.Init($('#js_nav_line_box'));
+    VailForm.Init();
+    
+    var error = '';
+    if(error){
+        var errShowBox = '' == '300'? $("#account") : $("#passwd");
+        VailForm.ShowMsg(errShowBox, error);
+        window.setTimeout(function(){
+            VailForm.HideMsg(errShowBox);
+    },2000);
+        
+    }
+    else{
+        window.setTimeout(function(){
+            VailForm.BindResize();
+    },20);
+    }
+}
+
+PageInit();
+</script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20395638-1']);
+  _gaq.push(['_setDomainName', '.115.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script> 
+<script type="text/javascript">var tjj = tjj || {};tjj.siteid = '10262';tjj.jsurl =  tjj.jsurl || 'http://static.115img.com/static/115tj.js?v=1.0';(function (){var tj = document.createElement('script'); tj.type = 'text/javascript'; tj.src = tjj.jsurl;var tp = document.getElementsByTagName('script')[0]; tp.parentNode.insertBefore(tj,tp);})();</script>
+
+<!--/div-->
+
+</body>

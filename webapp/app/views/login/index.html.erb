@@ -1,0 +1,222 @@
+<% content_for :header do %>
+
+	<title>夜猫子</title>
+	
+	<%= stylesheet_link_tag "common/document.css" %>
+	<%= stylesheet_link_tag "common/topbar.css" %>
+
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+	
+	<style>
+		body {
+			background-color: #98AFC7;
+		}
+		input[type="text"], input[type="password"], textarea, select {
+			margin-bottom: 10px;
+			padding: 0.4em 0.5em 0.2em;
+			font-size: 16px;
+			line-height: 1.6em;
+			width: 222px;
+			background: #fff;
+			background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ccc));
+			border: 1px solid #555;
+			-webkit-appearance: none;
+			-webkit-box-shadow: 1px 1px 1px #fff;
+			//-webkit-border-radius: 0.5em;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #aaa), color-stop(0.12, #FEFEFE));
+		}
+		input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+			outline: none;
+		}
+		input[type="button"], input[type="submit"] {
+			float: right;
+			margin-top: 3px;
+			background-color: #ffb94b;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
+			background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
+			background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
+			background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
+			background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
+			background-image: linear-gradient(top, #fddb6f, #ffb94b);
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+			-moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+			-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+			box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;	
+			border-width: 1px;
+			border-style: solid;
+			border-color: #d69e31 #e3a037 #d5982d #e3a037;
+			height: 35px;
+			padding: 0;
+			width: 120px;
+			cursor: pointer;
+			font: bold 15px Arial, Helvetica;
+			color: #8f5a0a;
+		}
+		input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:focus, input[type="submit"]:focus {
+			background-color: #fddb6f;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
+			background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
+			background-image: -moz-linear-gradient(top, #ffb94b, #fddb6f);
+			background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
+			background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
+			background-image: linear-gradient(top, #ffb94b, #fddb6f);
+		}
+		input[type="button"]active, input[type="submit"]:active {
+			outline: none;
+			-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+			-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+			box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;	
+		}
+		#page-wrapper {
+			position: relative;
+			width: 100%;
+			z-index: 1;
+		}
+		#page {
+			position: relative;
+			width: 1000px;
+			margin: 0 auto;
+			padding: 0px 0 0 0;
+			overflow: hidden;
+		}
+		#page-content {
+			position: relative;
+			display: inline-block;
+			width: 980px;
+			height: 540px;
+			margin: 0 10px;
+			font-size: 11px;
+			background: #FEFEFE/* 页面背景绿色 */;
+			overflow: hidden;
+			z-index: 1;
+			border-bottom-left-radius: 6px;
+			border-bottom-right-radius: 6px;
+			-webkit-border-bottom-left-radius: 6px;
+			-webkit-border-bottom-right-radius: 6px;
+			-moz-border-radius-bottomleft: 6px;
+			-moz-border-radius-bottomright: 6px;
+			box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
+			-webkit-box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
+			-moz-box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
+		}
+		#page-left {
+			position: relative;
+			float: left;
+			margin-top: 45px;
+			padding: 20px;
+			width: 640px;
+			height: 455px;
+			border-bottom-left-radius: 6px;
+			-webkit-border-bottom-left-radius: 6px;
+			-moz-border-radius-bottomleft: 6px;
+		}
+			#page-left iframe {
+				width: 100%;
+				height: 100%;
+				border-radius: 10px;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+				-webkit-box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+				-moz-box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+			}
+		#page-right {
+			position: relative;
+			float: left;
+			margin-top: 45px;
+			padding: 20px 20px 20px 0;
+			width: 280px;
+			height: 455px;
+			border-bottom-left-radius: 20px;
+			-webkit-border-bottom-left-radius: 20px;
+			-moz-border-radius-bottomleft: 20px;
+			/*box-shadow: 5px 1px 10px 1px rgba(0, 0, 0, 0.5);
+			-webkit-box-shadow: 5px 1px 10px 1px rgba(0, 0, 0, 0.5);
+			-moz-box-shadow: 5px 1px 10px 1px rgba(0, 0, 0, 0.5);*/
+		}
+			#page-right .loginbox {
+				position: relative;
+				padding: 20px;
+				width: 240px;
+				height: 130px;
+				background: url('/assets/pagebg.png') #D6DADD/* 页面背景淡蓝色 */;
+				border-radius: 6px;
+				-webkit-border-radius: 6px;
+				-moz-border-radius: 6px;
+				box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+				-webkit-box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+				-moz-box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+			}
+			#page-right .registerbox {
+				position: relative;
+				margin-top: 20px;
+				padding: 20px;
+				width: 240px;
+				height: 225px;
+				background: url('/assets/pagebg.png') #D6DADD/* 页面背景淡蓝色 */;
+				border-radius: 6px;
+				-webkit-border-radius: 6px;
+				-moz-border-radius: 6px;
+				box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+				-webkit-box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+				-moz-box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.2);
+			}
+	</style>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+		});
+	</script>
+<% end %>
+
+<body>
+
+<!-- Global Block :: start -->
+<div id="doc">
+	
+	<!-- top-wrap :: start -->
+	<div id="top-wrapper" class="reset">
+		<div id="top">
+			<div id="top-content">
+				<div id="top-nav">
+					<a href="/"><div id="logo"></div></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- top-wrap :: end -->
+	
+	<div id="page-wrapper">
+		<div id="page">
+			<div id="page-content">
+				<div id="page-left">
+					<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="/login/map"></iframe>
+				</div>
+				<div id="page-right">
+					<div class="loginbox">
+						<%= form_tag session_path do %>
+							<%= text_field_tag 'email', '', :class=>'input-text login', :placeholder=>'电子邮箱' %>
+							<%= password_field_tag 'password', '', :class=>'input-text login', :placeholder=>'密 码' %>
+							<%= submit_tag "登 录", :class=>'button', :id=>'login' %>
+						<% end %>
+					</div>
+					<div class="registerbox">
+						<input type="text" placeholder="邮 箱" />
+						<input type="text" placeholder="昵 称" />
+						<input type="text" placeholder="密 码" />
+						<input type="text" placeholder="验证密码" />
+						<input type="button" class="button" id="register" value="注 册" />
+					</div>
+				</div>
+			</div>		
+		</div>
+	</div>
+	
+</div>
+
+</body>

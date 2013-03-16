@@ -1,0 +1,89 @@
+<% content_for :header do %>
+
+	<title>夜猫子</title>
+	
+	<%= stylesheet_link_tag "login.css" %>
+	
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_bgpos.js" %>
+	<%= javascript_include_tag "login.js" %>
+	<%= javascript_include_tag "stepshift.js" %>
+	
+	<script type="text/javascript"> //define the number of steps
+  		var stepClasses = ["step-one", "step-two", "step-three"];
+  	</script>
+<% end %>
+
+<body>
+
+<div style="position: absolute; z-index: 99999999; display: block; ">	
+	<div class="float-box-wrapper form-step step-one" id="">
+		<div class="float-box">
+			<div class="float-box-left"><h1>登 陆</h1></div>
+			<div class="float-box-right" id="login" style="display: block; ">
+				<%= form_tag session_path do %>
+					<label for="email" class="input-label-newline">邮 箱：</label><br />
+					<%= text_field_tag 'email', '', :class=>'input-text login', :placeholder=>'电子邮箱' %>
+					<label for="password" class="input-label-newline">密 码：</label><br />
+					<%= password_field_tag 'password', '', :class=>'input-text login', :placeholder=>'密 码' %>
+					<%= submit_tag "登 录", :class=>'button', :style=>"float: right; " %>
+					<input type="button" class="button continue" id="step-one" onclick="; return false;" value="注 册" style="float: right; margin-right: 20px; " />
+				<% end %>
+			</div>
+			<!--<div class="float-box-right" id="register" style="display: none; ">
+				<h1>注 册</h1>
+				<label for="username" style="display: none; ">用户名</label>
+				<label for="nickname" style="display: none; ">昵  称</label>
+				<label for="password" style="display: none; ">密  码</label>
+				<input type="text" class="input-text" id="username" name="username" value="用户名" />
+				<input type="text" class="input-text" id="nickname" name="nickname" value="昵  称" />
+				<input type="password" class="input-text" id="password" name="password" value="yemaozi" />
+				<input type="button" class="button continue" id="step-one" onclick="; return false;" value="下一步" style="float: right; " />
+			</div>-->
+		</div>
+	</div>
+	
+	<%= form_for @user, :url => { :controller => "users", :action => "create" } do |f| %>
+		<% if @user.errors.any? %>
+			<div id="errorExplanation">
+				<h2><%= pluralize(@user.errors.count,"error") %>
+					prohibited this user from being </h2>
+				<ul>
+					<% @user.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+		<div class="float-box-wrapper form-step step-two" id="register-replace-login">
+			<div class="float-box">
+				<div class="float-box-left"><h1>注 册</div>
+				<div class="float-box-right">
+					<%= f.label :email, '邮箱：', :class => 'input-label' %><%= f.text_field :email, :class=>'input-text register', :placeholder=>'注册邮箱' %>
+					<%= f.label :nickname, '昵称：', :class => 'input-label' %><%= f.text_field :nickname, :class=>'input-text register', :placeholder=>'昵 称' %>
+					<%= f.label :password, '密码：', :class => 'input-label' %><%= f.password_field :password, :class=>'input-text register', :placeholder=>'密 码' %>
+					<%= f.label :password_confirmation, '密码验证：', :class => 'input-label' %><%= f.password_field :password_confirmation, :class=>'input-text register', :placeholder=>'验证密码' %>
+					<!--<input type="button" class="button continue" id="step-two" onclick="; return false;" value="下一步" style="float: right; " />-->
+					<%= f.submit '注 册', :class=>'button', :style=>'float: right; ' %>
+				</div>
+			</div>
+		</div>
+		
+		<div class="float-box-wrapper form-step step-three" id="" style="display: none; ">
+			<div class="float-box">
+			<div class="float-box-left">
+					<input type="file" name="realfile" size="34" class="realfile" onchange="document.getElementById('fakefile').value = this.value;" style="position: relative; top:0px; z-index:2; height: 24px; width: 300px; opacity: 0; -moz-opacity: 0 ; filter: alpha(opacity: 0); " />
+					<div class="fakefile" style="position: absolute; top: 36px; height: 24px; width: 300px; ">
+						<input type="text" name="fakefile" id="fakefile" style="height: 20px; width: 240px; border: 1px solid #999999; " />
+						<img src="/assets/upload.png" alt="Browse" style="position: relative; top: 6px; ">
+					</div>
+			</div>
+			<div class="float-box-right">
+				<%= f.submit '注 册', :class=>'button', :style=>'float: right; ' %>
+			</div>
+		</div>
+	<% end %>
+</div>
+
+</body>

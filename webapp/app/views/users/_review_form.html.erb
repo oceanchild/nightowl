@@ -1,0 +1,62 @@
+<% content_for :header do %>
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script type="text/javascript">
+function readURL(input) {
+    var ext = $('#review_image').val().split('.').pop().toLowerCase();
+    if($.inArray(ext, ['gif','png','jpg','jpeg','pdf']) == -1) {
+    	alert('invalid file type!');
+    	$('#review_image').val(null);
+	} else {
+    	if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('img.preview')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200).show();
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+     }
+}
+$(document).ready(function(){
+$("img.preview").mouseover(function(){
+	if ($(this).is(":visible")) 
+	{
+		$("img.delete_preview").fadeIn();
+	}
+		
+});
+
+$("img.delete_preview").click(function(){
+	if ($(this).is(":visible")) {
+		$('#review_image').val(null);
+		$("img.delete_preview").hide();
+		$("img.preview").hide();
+	}
+});
+
+var options = {
+		target:		"#reviews"
+	};
+	
+	$("#new_review").submit(function(){
+		$(this).ajaxSubmit(options);
+		
+		return false;
+	});
+});
+
+</script>
+<% end %>
+
+<%= form_for @review, :method => :post, :remote => true, :url => {:controller => "users", :action => "test_create"} do |f| %>
+<%= f.label "消息" %><%= f.text_area :content, :style=>'width:400px; height:100px;' %><br />
+<%= f.label "图片" %><%= f.file_field :image, :onChange => "readURL(this)" %><br />
+<%= image_tag("preview", :class=>"preview", :style=>"display:none;") %>
+<%= image_tag("delete_preview.jpg", :class=>"delete_preview", :style=>"display:none;") %><br />
+<%= f.hidden_field :initiator_id, :value => current_user[:id] %><br />
+<%= f.submit '发 布', :class=>'button', :style=>'float: left; ' %>
+<% end %>

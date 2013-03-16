@@ -1,0 +1,127 @@
+<% content_for :header do %>
+
+	<title>修改资料</title>
+	
+	<%= stylesheet_link_tag "users_editprofile.css" %>
+
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+	<%= javascript_include_tag "common/topbar.js" %>
+	<%= javascript_include_tag "common/calendar.js" %>
+	<%= javascript_include_tag "PCASClass.js" %>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			init_calendar();
+			
+			// initiate province-city dropdown
+			new PCAS("profile[province_id]", "profile[city_id]");
+		});
+	</script>
+<% end %>
+
+<body>
+
+<!-- Global Block :: start -->
+<div id="doc">
+	
+	<%= render :file => '/common/topbar' %>
+	
+	<!-- page-wrapper :: start-->
+	<div id="page-wrapper">
+		<div id="page">
+			<div id="page-content">
+				<div class="page-content-head">
+					<h2>用户信息： </h2><span>( <b>*</b> 为必填项)</span>
+				</div>
+				<div class="page-content-body">
+					<div class="content-body-tabs">
+						<div class="content-body-tab active">修改资料</div>
+						<div class="content-body-tab">修改密码</div>
+					</div>
+					<div class="content-body-sections">
+						<div class="content-body-section edit-profile active">
+							<div class=""></div>
+							<%= form_for @profile, :url => { :controller => "users", :action => "saveprofile", :user_id=>current_user["id"] }, :html => { :multipart => true}  do |f| %>
+								<!--当前用户昵称:<%= current_user["nickname"] %>
+								当前用户ID:<%= current_user["id"] %>
+								<% if current_user.profile != nil %>
+									当前用户名字:<%= current_user.profile["lastname"] %><%= current_user.profile["firstname"] %><br /><br />
+									当前用户头像:
+									<% if current_user.profile.image.size != nil %>
+										<%= image_tag current_user.profile.image.url(:thumb) %><br />
+									<% else %>
+										<%= image_tag 'common/user_default_male.png' %>
+									<% end %>
+								<% else %>
+									无法找到该用户资料:
+								<% end %>-->
+								
+								<%= f.hidden_field :user_id, :value => current_user[:id] %>
+								<div class="section-left">
+									<div class="leftcol"><%= f.label "姓名" %></div>
+									<div class="middlecol">*</div>
+									<div class="rightcol"><%= f.text_field :name %></div>
+																		
+									<div class="leftcol"><%= f.label "性别" %></div>
+									<div class="middlecol">*</div>
+									<div class="rightcol"><%= f.radio_button :gender, 'm', :checked => true %>男<%= f.radio_button :gender, 'f' %>女</div>
+									
+									<div class="leftcol"><%= f.label "生日" %></div>
+									<div class="middlecol"></div>
+									<div class="rightcol"><%= f.text_field :birthday %></div>
+									
+									<div class="leftcol"><%= f.label "所在省份" %></div>
+									<div class="middlecol"></div>
+									<div class="rightcol"><%= f.select :province_id, "" %></div>
+																											
+									<div class="leftcol"><%= f.label "所在城市:" %></div>
+									<div class="middlecol"></div>
+									<div class="rightcol"><%= f.select :city_id, "" %></div>
+																		
+									<div class="leftcol"><%= f.label "手机" %></div>
+									<div class="middlecol"></div>
+									<div class="rightcol"><%= f.text_field :cellphone %></div>
+									
+									<div class="leftcol"><%= f.label "QQ" %></div>
+									<div class="middlecol"></div>
+									<div class="rightcol"><%= f.text_field :qq %></div>
+									
+									<div class="leftcol"><%= f.label "MSN" %></div>
+									<div class="middlecol"></div>
+									<div class="rightcol"><%= f.text_field :msn %></div>
+								</div>
+								<div class="section-right">
+								<% if current_user.profile != nil %>
+									我的头像:<br />
+									<% if current_user.profile.image.size != nil %>
+										<%= image_tag current_user.profile.image.url(:thumb) %><br />
+									<% else %>
+										<%= image_tag 'common/user_default_male.png' %>
+									<% end %>
+								<% else %>
+									无法找到该用户资料:
+								<% end %>
+									<div class="leftcol"><%= f.label "头像" %></div>
+									<div class="rightcol"><%= f.file_field :image %></div>
+								</div>
+								<div class="clear"></div>
+								
+								<div class="profile-save">
+									<%= f.submit :value => "保存"%>
+								</div>
+							<% end %>
+						</div>
+						<div class="content-body-section edit-password">
+							
+						</div>
+					</div>
+				</div>
+				<div class="page-content-margin"></div>
+			</div>		
+		</div>
+	</div>
+	
+</div>
+
+</body>

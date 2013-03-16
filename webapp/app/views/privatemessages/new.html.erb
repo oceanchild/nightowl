@@ -1,0 +1,11 @@
+<%=@hello%>
+
+<%= form_tag(:action => :create, :id=>@user_id ) do %>
+	
+	receiver subject:<%= text_field_tag "receiver", "" %> <br>
+	message subject:<%= text_field_tag "subject", "" %> <br>
+	body:<%= text_field_tag "body", "" %> <br>
+
+	<%= submit_tag "Create"%>
+	
+<%end%>

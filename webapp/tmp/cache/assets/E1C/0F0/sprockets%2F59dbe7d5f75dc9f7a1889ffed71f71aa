@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070086.6561418:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%eba74945a300776d532364e3ec70a599I"logical_path;
+FI"home/home_btn.png;
+TI"pathname;
+FI".$root/app/assets/images/home/home_btn.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-04-14T01:14:06-04:00;
+FI"length;
+FI"	2189;
+FI"digest;
+F"%d3a2cb0f93a0849fc255c2d6d9bc7af5I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

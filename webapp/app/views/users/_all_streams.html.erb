@@ -1,0 +1,64 @@
+<% @all_events.each do |_event|%>
+<div class="stream-shell">
+	<div class="stream">
+		<input type="hidden" name="event_id" value=<%=_event.id%>>
+		<div class="stream-more">»</div>
+		<div class="stream-avatar">
+			<%= image_tag @event_users[_event.id].profile.image.url(:thumb),:onerror=>"this.src='http://atutor.ca/atutor/files/modules/hello_world-0.4.jpg'" %>
+		</div>
+		<div class="stream-content">
+			<div class="stream-row author">
+				<span class="stream-user">
+					<%= @event_users[_event.id].nickname%>
+				</span>
+				发布了
+				<span class="stream-subject">
+					<%= _event.theme%>
+				</span>
+			</div>
+			<div class="stream-row content">
+				<div class="stream-text">
+					<%= _event.introduction%>
+				</div>
+			</div>
+			<div class="stream-row tools">
+				<span class="stream-timestamp"><% Time.now.year %><% _event.date_created.month %>
+					<% if Time.now.year.to_i == _event.date_created.year.to_i %>
+						<% if Time.now.month.to_i == _event.date_created.month.to_i %>
+							<% if Time.now.day.to_i == _event.date_created.day.to_i %>
+								<% if Time.now.hour.to_i == _event.date_created.hour.to_i %>
+									<% if Time.now.min.to_i == _event.date_created.min.to_i %>
+										刚才
+									<%else%>
+										<%= Time.now.min.to_i - _event.date_created.min.to_i %>&nbsp;分钟前
+									<%end%>
+								<%else%>
+									<%= Time.now.hour.to_i - _event.date_created.hour.to_i %>&nbsp;小时前
+								<%end%>
+							<%else%>
+								<%= Time.now.day.to_i - _event.date_created.day.to_i%>&nbsp;天前
+							<%end%>
+						<%else%>
+							<%= Time.now.month.to_i - _event.date_created.month %>&nbsp;月前
+						<%end%>
+					<%else%>
+						1年前
+					<%end%>
+				</span>
+				<span class="stream-actions">
+					<%if _event.user_id == current_user[:id]%>
+					<a href="#">							
+						<span class="stream-del">
+							<input class="stream-del-identity" type="hidden" value="<%=_event.id%>" />
+							<i></i>
+							<b>删除</b>
+						</span>
+					</a>
+					<%end%>
+				</span>													 
+			</div>
+			<div class='clear'></div>
+		</div>
+	</div>
+</div>
+<% end %>

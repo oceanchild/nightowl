@@ -1,0 +1,50 @@
+<%if @events.blank? %>
+今天看起来很闲^_^
+<% else %>
+<script>
+    $(function(){
+    		
+    		$("div#events_list").click(function(){
+    			var list_index = $("div#events_list").index(this);
+    			if (list_index > -1){
+    				var event_id = $("input#hidden_event_id").eq(list_index).val();
+	    			$.ajax({
+				          url: "/events/selected_event_details",
+				          data: {event_id: event_id},
+				          dataType: "html",
+				          type: "GET",
+				          success: function(data){
+				          	$("div#week-calendar-details").html(data);
+				          	$("div#week-calendar-details").show();
+				          }
+				        });
+    			}
+    			
+    		});
+    	
+    });
+    
+</script>
+====================<br />
+<% for _event in @events do %>
+<div id="events_list">
+	<input type="hidden" id="hidden_event_id" value="<%=_event.id%>"/>
+	时间: <%= _event.event_date %><br />
+	地点: <%= _event.location %><br />
+	主题: <%= _event.theme %><br />
+	费用: <%= _event.cost %><br />
+	<% if _event.tags.length != 0%>
+	<% tag_names = Array.new %>
+	<% for tag in _event.tags %>
+	<% tag_names.push(tag.name)%>
+	<% end %>
+	标签: <%= tag_names.join(", ") %>
+	<% end %> 
+	<br />
+</div>
+====================<br />
+<% end %>
+
+<%end%>
+
+

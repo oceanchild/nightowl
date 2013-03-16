@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070087.2872782:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%2bfc398315c62bb354c68404ca49b12eI"logical_path;
+FI"home/icon_partner.gif;
+TI"pathname;
+FI"2$root/app/assets/images/home/icon_partner.gif;
+FI"content_type;
+FI"image/gif;
+FI"
+mtime;
+FI"2012-04-14T01:14:06-04:00;
+FI"length;
+FI"	1951;
+FI"digest;
+F"%834275d34507dcf135e5d709afc85a6cI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

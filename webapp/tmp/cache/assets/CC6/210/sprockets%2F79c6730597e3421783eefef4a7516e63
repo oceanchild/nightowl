@@ -1,0 +1,63 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346979668.814747:@value{I"
+class:EFI"BundledAsset;
+FI"id;
+F"%7839524dc276266f42a200378659efd5I"logical_path;
+FI"#jquery_lib/jquery_charcount.js;
+TI"pathname;
+FI"@$root/app/assets/javascripts/jquery_lib/jquery_charcount.js;
+FI"content_type;
+FI"application/javascript;
+FI"
+mtime;
+FI"2012-09-06T21:01:06-04:00;
+FI"	body;
+FI"�(function ($) {
+    // tipWrap:  提示消息的容器
+    // maxNumber:  最大输入字符
+    $.fn.charCount = function (tipWrap, controlBtn, maxNumber) {
+        var countClass = 'available',
+            // 定义内部容器的CSS类名
+            fullClass = 'exceeded',
+            // 定义超出字符的CSS类名
+            disabledClass = 'disabled'; // 定义不可用提交按钮CSS类名
+        // 统计字数
+        var count = function () {
+            //var btn = $(this).closest('form').find(':submit');
+            var val = $(this).val().replace(/[^x00-xff]/g, 'xx').length / 2; //making English char 0.5 and Chinese char 1
+            if (controlBtn != null) {
+	            // 是否禁用提交按钮
+	            var disabled = {
+	                on: function () {
+	                    controlBtn.removeAttr('disabled').removeClass(disabledClass);
+	                },
+	                off: function () {
+	                    controlBtn.attr('disabled', 'disabled').addClass(disabledClass);
+	                }
+	            };
+            }
+            if (val == 0 && controlBtn != null) disabled.off();
+            if (val <= maxNumber) {
+                if (val > 0 && controlBtn != null) disabled.on();
+                tipWrap.html('<span class="' + countClass + '">\u8FD8\u80FD\u8F93\u5165 <i>' + Math.abs(Math.floor(maxNumber - val)) + '</i> \u4E2A\u5B57</span>');
+            } else {
+                if (controlBtn != null) disabled.off();
+                tipWrap.html('<span class="' + countClass + ' ' + fullClass + '">\u5DF2\u7ECF\u8D85\u51FA <i>' + Math.abs(Math.floor(maxNumber - val)) + '</i> \u4E2A\u5B57</span>');
+            };
+        };
+        $(this).bind('focus keyup change', count);
+        return this;
+    };
+})(jQuery);
+;
+TI"asset_paths;
+F[I"@$root/app/assets/javascripts/jquery_lib/jquery_charcount.js;
+FI"dependency_paths;
+F[{I"	path;
+FI"@$root/app/assets/javascripts/jquery_lib/jquery_charcount.js;
+FI"
+mtime;
+FIu:	Time� �$�m
+:@_zoneI"EDT;
+T:nano_numi�:nano_deni:submicro"A0:offseti���I"hexdigest;
+F"%93455ebc5b096292cab6857c4be8dda1I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

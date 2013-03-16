@@ -1,0 +1,21 @@
+<% if @list_results.length == 0%>
+	<span>没有您找的人</span>
+<%else%>
+	<% @list_results.each do |_friend| %>
+		<div class="stream-more">»</div>
+		<div class="stream-avatar">
+			<%=image_tag "/assets/avatar_test.jpg"%>
+		</div>
+		<span class='detail_nickname'><b><%= _friend.nickname%></b></span><br/>
+		<span class='detail_addr'>南京 六合</span>
+		
+		
+		<%= form_tag(:action => :pending, :id=>@user_id ) do %>
+			<%= hidden_field_tag "target_user", value= _friend.id%><br/>
+			<%= submit_tag "加为好友", :class=>'add_btn'%>
+		<%end%>
+		<div class="clear"></div>
+	<%end%>
+<%end%>	
+
+

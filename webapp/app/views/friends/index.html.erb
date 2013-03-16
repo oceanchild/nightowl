@@ -1,0 +1,169 @@
+<% content_for :header do %>
+
+	<title>好友首页</title>
+	
+	<%= stylesheet_link_tag "friends.css" %>
+	<!--<%= stylesheet_link_tag "fullcalendar.css" %>-->
+	
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_charcount.js" %>
+	<%= javascript_include_tag "common/topbar.js" %>
+	<%= javascript_include_tag "common/calendar.js" %>
+	<%= javascript_include_tag "friends.js" %>
+
+<% end %>
+
+<body>
+
+<!-- Global Block :: start -->
+<div id="doc">
+	
+	<%= render :file => '/common/topbar' %>
+	
+	<!-- page-wrapper :: start-->
+	<div id="page-wrapper">
+		<div id="page">
+			<div id="page-content">
+				<div class="column" id="page-left">
+					<div id="filter-wrapper" style="background-color: #e6e6dc; -moz-border-radius-topright: 15px; -webkit-border-top-right-radius: 15px; border-top-right-radius: 15px; -moz-border-radius-bottomright: 15px; -webkit-border-bottom-right-radius: 15px; border-bottom-right-radius: 15px; -moz-border-radius-bottomleft: 15px; -webkit-border-bottom-left-radius: 15px; border-bottom-left-radius: 15px; ">
+						<div id="filter-content">
+							<textarea class="filter-box" id="comment" placeholder="搜索我的好友"></textarea>
+							<input class="custom-btn filter-btn" type="button" id="filterbtn" value="搜 索" disabled="disabled" />
+							<div class="clear"></div>
+						</div>
+					</div><!--end of fabu-wrapper-->
+
+					<div id="streams-wrapper" style="background-color: #e6e6dc; -moz-border-radius-topright: 15px; -webkit-border-top-right-radius: 15px; border-top-right-radius: 15px; -moz-border-radius-bottomright: 15px; -webkit-border-bottom-right-radius: 15px; border-bottom-right-radius: 15px; -moz-border-radius-bottomleft: 15px; -webkit-border-bottom-left-radius: 15px; border-bottom-left-radius: 15px; ">
+						<div id="streams-content" class="incoming">
+							<div id="streams-loading" style="display: none;">载入中...</div>
+							<span id='loading_img_and_data'></span><!--new data will be loaded here first as well as the loading image. Loaded data are in hidden fields-->
+							<!--<span id='msg_more'></span>--><!--pushed messages will be insert in this div by function push_post_message()-->
+							<div id="streams-filter-tabs">
+								<ul class="filter-tabs">
+									<li class="active"><div class="filter-tab">全部信息</div></li>
+									<li><div class="filter-tab">我关注的</div></li>
+									<li><div class="filter-tab">关于我的</div></li>
+								</ul>
+							</div>
+							<div class="streams-new-btn">新信息(0)</div>
+							<div id="streams" class="streams current notice-new">
+								<% @pending_friends.each do |_pending_friend|%>
+								<div class="stream-shell">
+									<div class="stream">
+										<div class="stream-more">»</div>
+										<div class="stream-avatar">
+											<%=image_tag "/assets/avatar_test.jpg"%>
+										</div>
+										<span class='nickname'><b><%= _pending_friend[1]%>&nbsp;&nbsp;</b>邀请您成为好友</span><br/>
+										<%= form_tag(:action => :create, :id=>@user_id ) do %>
+											<%= hidden_field_tag "target_user", value= _pending_friend[0]%>
+											<%= submit_tag "确认添加", :class=>'delete_btn'%>
+										<%end%>
+										<br/><br/>
+									</div>
+								</div>
+								<%end%>
+								<!--friends list-->
+								<% @my_friends.each do |_friend| %>
+								<div class="stream-shell">
+									<div class="stream">
+										<div class="stream-avatar">
+											<%=image_tag "/assets/avatar_test.jpg"%>
+										</div>
+										<div style="margin-left: 6px; float: left; width: 450px;">
+											<div style="float: left; width: 372px;">
+												<span class="stream-friend"><%= _friend[1]%></span><br /><br />
+												<span style="color: grey;">好友数：<%= _friend[2]%></span><br/>
+												<span style="color: grey;">粉丝数：0</span>
+											</div>
+											<div style="float: left; width: 78px; height: 64px;">
+												<%= form_tag(:action => :delete, :id=>@user_id ) do %>
+												<%= hidden_field_tag "delete_user", value= _friend[0]%>
+													<%= submit_tag "删除好友", :class=>'custom-btn delete_btn', :style=>'margin-top: 20px;'%>
+												<%end%>
+											</div>
+										</div>
+										<div class="clear"></div>
+									</div>
+								</div>
+								<%end%>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="column" id="page-right">
+					<div class="dashboard" style="display: block; ">
+						<div class="dashboard-content">
+							<div class="dashboard-item">
+								<div id="user-info">
+									<span class='search_title'><b>搜索新好友</b></span>
+									<div class="clear"></div>
+									<br/>
+									<span class='search_label'>昵称：</span>
+										<input type="text" id='search_nickname' class="user-info-item" />
+									<div class="clear"></div>
+									<span class='search_label'>邮箱：</span>
+										<input type="text" id='search_email'  class="user-info-item" />
+								</div>
+								<div class='detail_search'>
+									<input type="button" class='search_btn' value='找他/她'/>
+								</div>
+							</div><!--dashboard-item-->
+							<div class="clear"></div>
+							<div id='detail_search_result' class='detail_search_result'></div>
+						</div><!--end of dashboard-content-->
+					</div><!--end of dashboard-->
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<!-- page-wrapper :: end-->
+
+</div>
+<!-- Global Block :: end -->
+
+
+
+<br/><br/>
+-------------------------------------
+<br/>
+<div = 'my_friends'><span>My friends</span></br>
+	<% @my_friends.each do |_friend| %>
+		<%= form_tag(:action => :delete, :id=>@user_id ) do %>
+			<%= _friend%>
+			<%= hidden_field_tag "delete_user", value= _friend%>
+			<%= submit_tag "删除好友"%>
+		<%end%>
+	<%end%>
+	++++
+</div>
+
+<hr />
+
+<div = 'pending list'><span>Pending friends request</span></br>
+	<% @pending_friends.each do |_pending_friend|%>
+		<%= form_tag(:action => :create, :id=>@user_id ) do %>
+			<%=_pending_friend%>
+			<%= hidden_field_tag "target_user", value= _pending_friend%>
+			<%= submit_tag "Confirm"%>
+		<%end%>
+	<%end%>
+	++++
+</div>
+
+
+<hr />
+
+<div = 'black list'><span>Blacklist(under development)</span></br>
+	<% @black_friends.each do |_black_friend|%>
+		<%= _black_friend%><br>
+	<%end%>
+	++++
+</div>
+
+<br /><span>Add friend</span></br>
+<%= link_to image_tag('/assets/rails.png', :alt => 'Add friend', :title => 'Add friend'), {:action =>'new', :id => @user_id}%>
+
+</body>

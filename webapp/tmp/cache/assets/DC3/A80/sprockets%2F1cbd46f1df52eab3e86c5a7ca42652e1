@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346706954.3225398:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%e775e0840aed1985812d7ea0032482d9I"logical_path;
+FI"common/drop.png;
+TI"pathname;
+FI",$root/app/assets/images/common/drop.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-03-28T04:27:30-04:00;
+FI"length;
+FI"	1046;
+FI"digest;
+F"%1754242b8c7a51afa6d10aa3599ee9d6I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

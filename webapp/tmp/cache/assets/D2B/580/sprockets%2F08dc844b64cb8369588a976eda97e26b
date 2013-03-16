@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346707845.9400802:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%3b6f58e3720bd55fe311f030c1a3acc5I"logical_path;
+FI"6jquery_ui/ui-bg_diagonal-maze_75_cccccc_10x10.png;
+TI"pathname;
+FI"N$root/app/assets/images/jquery_ui/ui-bg_diagonal-maze_75_cccccc_10x10.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-01-07T21:50:49-05:00;
+FI"length;
+FI"145;
+FI"digest;
+F"%1a54ae639aeb6098998a10809c78c5f4I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

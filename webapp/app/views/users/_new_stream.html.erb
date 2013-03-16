@@ -1,0 +1,37 @@
+<div class="stream-shell new-stream-template" style="display: none;">
+	<div class="stream">
+		<div class="stream-more">»</div>
+		<div class="stream-avatar">
+			<%= image_tag current_user.profile.image.url(:thumb) %>
+		</div>
+		<div class="stream-content">
+			<div class="stream-row author">
+				<span class="stream-user">
+					<%= current_user["nickname"] %>
+				</span>
+				发布了
+				<span class="stream-subject">
+					看飞行表演
+				</span>
+			</div>
+			<div class="stream-row content">
+				<div class="stream-text">
+					<p></p>
+				</div>
+			</div>
+			<div class="stream-row tools">
+				<span class="stream-timestamp">刚才</span>
+				<span class="stream-actions">
+					<a href="#" >							
+						<span class="stream-del">
+							<input class="stream-del-identity" type="hidden" value="" />
+							<i></i>
+							<b>删除</b>
+						</span>
+					</a>
+				</span>													 
+			</div>
+			<div class='clear'></div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070087.3333228:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%60acde29ffaf3e19005fcb6ee50eac0cI"logical_path;
+FI"home/nav_icon.gif;
+TI"pathname;
+FI".$root/app/assets/images/home/nav_icon.gif;
+FI"content_type;
+FI"image/gif;
+FI"
+mtime;
+FI"2012-04-14T01:14:05-04:00;
+FI"length;
+FI"
+79268;
+FI"digest;
+F"%76b948b48c9e0499c05843c059cc412bI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

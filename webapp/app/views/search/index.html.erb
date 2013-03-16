@@ -1,0 +1,69 @@
+<% content_for :header do %>
+	
+<%= stylesheet_link_tag "search.css" %>
+<%= javascript_include_tag "jquery_latest.js" %>
+<%= javascript_include_tag "jquery_ui.min.js" %>
+<%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" %>
+
+	<script>
+	$.widget( "custom.catcomplete", $.ui.autocomplete, {
+		_renderMenu: function( ul, items ) {
+			var self = this,
+				currentCategory = "";
+			$.each( items, function( index, item ) {
+				if ( item.category != currentCategory ) {
+					ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+					currentCategory = item.category;
+				}
+				self._renderItem( ul, item );
+			});
+		}
+	});
+	</script>
+	<script>
+	$(function() {
+		
+		$( "#keywords" ).catcomplete({
+			delay: 0,
+			source: function( request, response ) {
+					$.ajax({
+			          url: "/search/autocomplete",
+			          data: {keyword: request.term},
+			          dataType: "html",
+			          type: "GET",
+			          success: function(data){
+			          	var nicknames = [];
+						var event_themes = [];
+						var listArray = [];
+						var temp;
+			          	nicknames = data.split('*#')[0].split('$#');
+			          	event_themes = data.split('*#')[1].split('$#');
+			          	for (i in nicknames) {
+			          		
+			          		temp = {label: nicknames[i], category: "人"};
+			          		listArray.push(temp);
+			          	}
+			          	for (j in event_themes) {
+			          		
+			          		temp = {label: event_themes[j], category: "事件"};
+			          		listArray.push(temp);
+			          	}
+			              response(listArray);
+			          }
+			        });
+				},
+				minLength: 2,
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				}
+		});
+	});
+	</script>
+<% end %>
+	
+<%= form_tag(:controller => "search", :action => "getResults") do %>
+<%= text_field_tag 'keywords'%>
+<%= submit_tag 'Search'%>
+<% end %>
+

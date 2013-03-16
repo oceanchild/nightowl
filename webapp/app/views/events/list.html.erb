@@ -1,0 +1,215 @@
+<% content_for :header do %>
+
+	<title>活动地图</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	
+	<%= stylesheet_link_tag "events.css" %>
+	
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_dragswitch.js" %>
+	<%= javascript_include_tag "common/topbar.js" %>
+	<%= javascript_include_tag "common/calendar.js" %>
+	<%= javascript_include_tag "events.js" %>
+	<%= javascript_include_tag "infobubble.js" %>
+	<%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=true&language=zh-CN&region=CN" %>
+	
+	<script type="text/javascript">
+		var map;
+		//var marker = null;
+		var marker = new Array();
+		var event_point = null;
+		var datas = new Array();
+			
+		function initialize() {
+			var mylatlng = new google.maps.LatLng(39.981320,116.320247);
+	    	// var infowindow = new google.maps.InfoWindow();
+			<% for _event in @events %>
+				datas.push({
+					name: '<%= _event.theme %>',
+					lat: '<%= _event.lat %>',
+					lng: '<%= _event.lng %>',
+					event_date: '<%= _event.event_date %>',
+					address: '<%= _event.location %>',
+					cost: '<%= _event.cost %>',	
+					content_text: '<%= _event.introduction %>'
+				});
+			<% end %>
+			
+			var Options = {
+		      zoom: 17,
+		      center: mylatlng,
+		      disableDefaultUI: true,
+		      disableDoubleClickZoom: true,
+		      scrollwheel: true,
+		      maxZoom: 19,
+		      minZoom: 12,
+		      mapTypeId: google.maps.MapTypeId.ROADMAP,
+		      callback:function(){}
+		    };
+		    
+		    map = new google.maps.Map(document.getElementById("map_canvas"), Options);
+		    
+		    setMarkersInfoWindows(map, datas);
+		}
+		
+		function setMarkersInfoWindows(map, data) {
+			var image = '/assets/event_icons/bar_pri.png';
+			var brief = new Array();
+			var detail = new Array();
+			
+			//var infoBubble = new InfoBubble({
+			var infoBubble = new google.maps.InfoWindow({
+			    //minWidth: 200,
+				maxWidth: 400,
+				//minHeight: 90,
+				maxHeight: 600,
+				// backgroundColor: 'rgb(57,57,57)',
+			    // borderRadius: 5,
+	            // arrowSize: 20,
+	            // borderWidth: 2,
+	            // borderColor: '#2c2c2c',
+	            // hideCloseButton: true,
+				// arrowPosition: 40,
+				// disableAutoPan: true, //move the marker to the map center
+				// shadowStyle: 1,
+			});
+			
+			for(i=0;i<data.length;i++){
+			    var lat = data[i].lat;
+			    var lng = data[i].lng;
+			    var latLng = new google.maps.LatLng(lat, lng);
+			    
+			    marker[i] = new google.maps.Marker({map: map, position: latLng, icon:image});
+			    //markersArray.push(marker);
+
+			    // Set an attribute on the marker, it can be named whatever...
+			    
+			    brief[i] = '<div class=bubble>'+
+			    			'<div><b>'+ datas[i].name +'</b></div></br>' +
+			    			'<div>时间： ' + datas[i].event_date + '</div></br>'+
+			    			'<div>地址： ' + datas[i].address + '</div>' +
+			    			'</div>'
+			    			;
+
+			    detail[i] = '<div class=bubble>'+
+			    			 '<div><b>'+ datas[i].name +'</b></div></br>' +
+			    			 '<div>时间： ' + datas[i].event_date + '</div></br>'+
+			    			 '<div>花销： ' + datas[i].cost + '</div></br>'+
+			    			 '<div>地址： ' + datas[i].address + '</div></br>'+
+			    			 '<div>' + datas[i].content_text + '</div>'+
+			    			 '</div>'
+			    			 ;
+
+			    marker[i].content = brief[i];
+			    marker[i].index = i;
+			    marker[i].isExpend = false;
+			    //marker2.html = detail;
+			    //marker_d.html = detail;
+			    
+			    google.maps.event.addListener(marker[i], 'mouseover', function(){
+			        if(!infoBubble.isOpen()) {
+            			infoBubble.setContent(this.content);
+			        	infoBubble.open(map, this);
+			        	this.isExpend = false;
+          			//}else if(infoBubble.index != this.index){
+          				
+          			}else{}
+			    });
+			    
+			    google.maps.event.addListener(marker[i], 'click', function(){
+			    	if(infoBubble.index == this.index){
+			    		if(this.isExpend == false){
+			    			infoBubble.setContent(detail[this.index]);
+			    			this.isExpend = true;
+			    		}else{}
+			    	}else{
+			    		infoBubble.isExpend = false;
+			    		infoBubble.setContent(detail[this.index]);
+			    		this.isExpend = true;
+			    	}
+			    	//infoBubble.setContent(detail[this.index]);
+			    });
+			      
+			    google.maps.event.addListener(marker[i], 'mouseout', function(){
+			        infoBubble.close();
+			    });
+			}
+		}
+
+		function mapZoomIn() {
+			var currentZoom = map.getZoom();
+			map.setZoom(++currentZoom);		
+		}
+	
+		function mapZoomOut() {
+			var currentZoom = map.getZoom();
+			map.setZoom(--currentZoom);	
+		}
+		
+		function MapTypeSatellite() {
+			map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+		}
+			
+		function MapTypeRoadmap() {
+			map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+		}
+		
+		function MapTypeHybrid() {
+			map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+		}
+	</script>
+<% end %>
+
+<body onload="initialize()">
+
+<!-- Global Block :: start -->
+<div id="doc">
+	<%= render :file => '/common/topbar' %>
+	
+	<div id="map_canvas" style="width:100%; height:104%"></div><!--屏蔽google链接-->
+	<div id="map-content">
+		
+	</div>
+	<div id="map-footer" class="gradient round-corner">
+		<div id="map-tools">
+			<div id="map-controls">
+				<div class="zoom-control" id="zoom-out" onclick="mapZoomOut()"><img src="/assets/zoomOut.png" alt="-"></div>
+				<div class="zoom-control" id="zoom-in" onclick="mapZoomIn()"><img src="/assets/zoomIn.png" alt="+"></div>
+				<!--<input type='button' class="awesome medium" value='切换卫星地图' onclick="MapTypeSatellite()"/>
+				<input type='button' class="awesome medium" value='切换正常地图' onclick="MapTypeRoadmap()"/>		
+				<input type='button' class="awesome medium" value='切换混合地图' onclick="MapTypeHybrid()"/>-->
+				<div class="drag-range"></div>
+				<script type="text/javascript">
+					/* Drag Switch */
+					$(".drag-range").dragToEnvoke({
+						onFunc : function() {
+							MapTypeHybrid();
+							$('.drag-range .handle').html('<b>混 合</b>');
+						},
+						offFunc : function() {
+							MapTypeRoadmap();
+							$('.drag-range .handle').html('<b>道 路</b>');
+						},
+						balancePoint : 0.5,
+						handleText : "<b>道 路</b>",
+					});
+				</script>
+			</div>
+			<a href="#" id="filter-activate-btn">+</a>
+		</div>
+	</div>
+	<div id="map-filters">
+		<% for _tag in @tags %>
+			<span><%= _tag.name %></span>
+		<% end %>
+	</div>
+	
+	<div class="debug">
+		<!--the div will contains feedback data from server and for debugging use-->
+	</div>
+
+</div>
+<!-- doc :: end -->
+
+</body>

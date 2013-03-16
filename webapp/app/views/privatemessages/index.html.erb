@@ -1,0 +1,28 @@
+This is your mail inbox
+</br>-------------------------</br>
+<% @messages.each do |_message|%>
+	Subject:<%= _message['subject']%></br>
+	From:<%= _message['sender_id']%></br>
+	Body:<%= _message['body']%></br>
+</br>---</br>
+<%end%>
+</br>-------------------------</br>
+
+<%= form_tag :action => :send_msg do %>
+	Title:<input type="text" id='msg_title' name = 'msg_title'/>
+	</br>
+	To:<input type="text" id='msg_to' name='msg_to' />
+	</br>
+	Body:<textarea id='msg_body' name='msg_body' rows="8" cols="40"></textarea>
+	</br>
+	<%= submit_tag "Send" %>
+<% end %>
+</br>-------------------------</br>
+This is your mail outbox
+</br>-------------------------</br>
+<% @messagesSent.each do |_message|%>
+	Subject:<%= _message['subject']%></br>
+	To:<%= _message['recipient_id']%></br>
+	Body:<%= _message['body']%></br>
+</br>---</br>
+<%end%>

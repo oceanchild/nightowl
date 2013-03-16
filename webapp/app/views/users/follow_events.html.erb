@@ -1,0 +1,11 @@
+<% for _event in @events %>
+	<%= _event.id %>: <%= _event.theme%> || 关注人数: <%= _event.participants_num %>
+	<% if current_user.event_ids.include?(_event.id)%>
+		<%= link_to "取消关注", :controller => "users", :action => "follow_events", :id => _event.id%>
+	<% else %>
+		<%= link_to "关注", :controller => "users", :action => "follow_events", :id => _event.id%>
+	<% end %>
+	<br /><br />
+<% end %>
+
+<%= debug current_user.event_ids %>

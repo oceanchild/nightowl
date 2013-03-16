@@ -1,0 +1,8 @@
+<%= form_tag(:action => :pending, :id=>@user_id ) do %>
+
+	target:<%= text_field_tag "target_user", "" %> <br>
+	message:<%= text_field_tag "message", "" %> <br>
+
+	<%= submit_tag "Add"%>
+	
+<%end%>

@@ -1,0 +1,14 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346707824.9244184:@value{	I"length:EFiÊI"digest;
+F"%4b4b31e2c3f61cd2cbd8eb7fcabeddeeI"source;
+FI"Ê$(document).ready(function() {
+	// global initiation :: initiate everything
+	init();
+
+	function init() {
+		init_calendar(); // initiate calendar
+		/* USERS PAGE specific components initiation */
+	}
+});
+;
+FI"_version;
+F"%3490cd47ff26433c7748103d15ca1ed4

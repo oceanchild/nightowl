@@ -1,0 +1,12 @@
+<div id="reviews">
+<% for review in @reviews do %>
+<div id="review">
+  <p><b>发布 <%= time_ago_in_words(review.date_created) %> ago</b></p>
+  <p><%= review.content %></p>
+  <% unless review.image_file_name.blank? %>
+  	<%= image_tag review.image.url(:original) %>
+  <% end %>
+  <hr>
+</div>
+<% end %>
+</div>

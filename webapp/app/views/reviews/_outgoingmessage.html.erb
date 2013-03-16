@@ -1,0 +1,13 @@
+<%i=0%>
+<%for _review in @reviews do%>
+	<input id="msg_new_initiator_id_<%=i%>" type="hidden" value="<%=@reviews[i].initiator_id %>" />
+	<input id="msg_new_content_<%=i%>" type="hidden" value="<%=@reviews[i].content %>" />
+	<input id="msg_new_date_created_<%=i%>" type="hidden" value="<%=@reviews[i].date_created %>" />
+	<input id="msg_new_id_<%=i%>" type="hidden" value="<%=@reviews[i].id%>" />
+<%i=i+1%>
+<%end%>
+<input id="msg_num" type="hidden" value="<%= i %>" /><!--records how many messages are passed-->
+
+
+
+

@@ -1,0 +1,155 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346800801.5467765:@value{	I"length:EFi&I"digest;
+F"%49b87157aa2d38e5ac9e30f58a3fbc3bI"source;
+FI"&/* CALENDAR-EVENTS TOP: WEEK CALENDAR */
+#week-calendar-top{
+	position: relative;
+	margin: auto;
+	width: 980px;
+	height: 45px;
+	display: none;
+}
+	#week-calendar-logo {
+		position: relative;
+		float: left;
+		width: 120px;
+		height: 40px;
+	}
+	/* Main Calendar */
+	#week-calendar {
+		position: relative;
+		float: right;
+		margin: 5px 5px 0;
+		padding: 4px;
+		width: 800px;
+		height: 30px;
+		text-align: center;
+		background: #3B3B3B;
+		border: 1px solid #000000;
+	}
+		/* Week Calendar Left */
+		#week-calendar-left {
+			position: relative;
+			float: left;
+			width: 220px;
+		}
+			#week-calendar-year {
+				float: left;
+				width: 100px;
+				height: 30px;
+				font-size: 22px;
+				line-height: 30px;
+			}
+			#week-calendar-today {
+				float: left;
+				width: 80px;
+				height: 30px;
+			}
+			#week-calendar-today input[type=button] {
+				width: 60px;
+				height: 30px;
+			}
+			/* .week-calendar-tools is defined at the bottom */
+		/* Week Calendar Middle */
+		#week-calendar-content {
+			position: relative;
+			float: left;
+			margin: 0 5px;
+			width: 520px;
+		}
+			#week-calendar-days {
+				position: relative;
+				float: left;
+				width: 520px;
+				height: 30px;
+				font-size: 14px;
+			}
+			.week-calendar-day {
+				margin: 0 2px;
+				float: left;
+				width: 70px;
+				height: 30px;
+			}
+				.week-day-title {
+					float: left;
+					width: 70px;
+					height: 14px;
+					line-height: 14px;
+					text-align: center;
+				}
+				.week-day-date {
+					margin-top: 2px;
+					float: left;
+					width: 70px;
+					height: 14px;
+					line-height: 14px;
+					text-align: center;
+				}
+				.week-today .week-day-date {
+					background-color: #999999;
+				}
+		/* Week Calendar Right */
+		#week-calendar-right {
+			position: relative;
+			float: left;
+			width: 40px;
+		}
+			.week-calendar-tools {
+				float: left;
+				width: 40px;
+			}
+			.week-calendar-tools input[type=button] {
+				width: 40px;
+				height: 30px;
+			}
+
+/* WEEK-CALENDAR-EVENTS BOTTOM: WEEK EVENTS */
+#week-calendar-bottom {
+	position: relative;
+	margin: auto;
+	width: 980px;
+	display: none;
+}
+	/* Week Calendar Left */
+	#week-calendar-events-left {
+		position: relative;
+		float: left;
+		margin: 20px 40px 20px 40px;
+		width: 280px;
+	}
+		/* Calendar Events Listing */
+		#week-calendar-lists {
+			position: relative;
+			width: 280px;
+			overflow: auto;
+		}
+			.week-calendar-list {
+				margin-top: 20px;
+				width: 270px;
+				text-align: left;
+				word-wrap: break-word;
+				background: #3B3B3B;
+			}
+			.my-events {
+				margin-top: 0;
+			}
+	
+	/* Calendar Events Right */
+	#week-calendar-events-right {
+		position: relative;
+		float: left;
+		margin: 20px 40px 20px 0;
+		width: 580px;
+	}
+		/* Calendar Events Details */
+		#week-calendar-details {
+			position: relative;
+			width: 580px;
+			text-align: left;
+			word-wrap: break-word;
+			overflow: hidden;
+			overflow-y: auto;
+			background: #3B3B3B;
+		}
+;
+FI"_version;
+F"%5b0f2ed8b863705e2feec963fdfc8630

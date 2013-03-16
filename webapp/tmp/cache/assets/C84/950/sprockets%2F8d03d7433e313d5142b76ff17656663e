@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346706954.304821:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%155296c35235351e3d47f6dbb053d4daI"logical_path;
+FI"$common/calendar_right_inset.png;
+TI"pathname;
+FI"<$root/app/assets/images/common/calendar_right_inset.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-01-16T03:01:19-05:00;
+FI"length;
+FI"	2954;
+FI"digest;
+F"%11a3d27e84df40866768e766d00456e9I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

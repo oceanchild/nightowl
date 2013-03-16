@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070086.663035:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%92c2ff155db1777bd63abe6697f769e7I"logical_path;
+FI"home/access_icon.gif;
+TI"pathname;
+FI"1$root/app/assets/images/home/access_icon.gif;
+FI"content_type;
+FI"image/gif;
+FI"
+mtime;
+FI"2012-04-14T01:14:06-04:00;
+FI"length;
+FI"	3581;
+FI"digest;
+F"%a3a357cfe319515b6b624f34a9e25a00I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

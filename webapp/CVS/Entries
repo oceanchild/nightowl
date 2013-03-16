@@ -1,0 +1,18 @@
+/.gitignore/1.1/Sat Nov  5 21:03:19 2011/-kb/
+/.project/1.1/Sat Nov  5 21:03:19 2011//
+/Gemfile/1.4/Sat Feb 11 23:42:23 2012//
+/Gemfile.lock/1.1/Sat Nov  5 21:03:19 2011/-kb/
+/README/1.1/Sat Nov  5 21:03:19 2011//
+/Rakefile/1.1/Sat Nov  5 21:03:18 2011//
+D/app////
+D/config////
+/config.ru/1.1/Sat Nov  5 21:03:19 2011//
+D/db////
+D/doc////
+D/lib////
+D/log////
+D/public////
+D/script////
+D/test////
+D/tmp////
+D/vendor////

@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070086.3478074:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%3a051dffb0b418e22de12f84c862e01dI"logical_path;
+FI"home/home_bg_x.png;
+TI"pathname;
+FI"/$root/app/assets/images/home/home_bg_x.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-04-14T01:14:05-04:00;
+FI"length;
+FI"755;
+FI"digest;
+F"%b2a064e170f6240366454117588a4f7eI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

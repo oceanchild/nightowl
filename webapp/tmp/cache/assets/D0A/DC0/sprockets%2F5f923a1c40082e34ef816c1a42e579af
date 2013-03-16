@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070086.7778378:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%9b2ae6a09cb05083ab4b138c3fc107c8I"logical_path;
+FI"home/home_spr_icon.gif;
+TI"pathname;
+FI"3$root/app/assets/images/home/home_spr_icon.gif;
+FI"content_type;
+FI"image/gif;
+FI"
+mtime;
+FI"2012-04-14T01:14:06-04:00;
+FI"length;
+FI"491;
+FI"digest;
+F"%cad504be70034ec20956729db0e3c24fI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

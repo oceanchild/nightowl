@@ -1,0 +1,19 @@
+<%unless @events.blank? %>
+<% for _event in @events do%>
+	<script type="text/javascript">
+		datas.push({
+			id: '<%= _event.id%>',
+			name: '<%= _event.theme %>',
+			lat: '<%= _event.lat %>',
+			lng: '<%= _event.lng %>',
+			event_date: '<%= _event.event_date %>',
+			address: '<%= _event.location %>',
+			cost: '<%= _event.cost %>',	
+			content_text: '<%= _event.introduction %>',
+			image: '/assets/event_icons/public/' + <%= _event.events_types_id %>  + '.png',
+			event_image: '<% if !_event.eventimages.empty? %><%= image_tag _event.eventimages.first.image.url(:small), :class=>'info-picture-img' %><%else%>No Picture<%end%>',
+			followStatus: <% if current_user.event_ids.include?(_event.id)%>'取消关注'<%else%>'我要关注'<%end%>
+		});
+	</script>
+<% end %>
+<%end%>

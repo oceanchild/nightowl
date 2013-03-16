@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346707927.766858:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%bb5cde86f3295022dbcaa1a0905f8fc6I"logical_path;
+FI"event_icons/public/4.png;
+TI"pathname;
+FI"5$root/app/assets/images/event_icons/public/4.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-04-10T23:48:43-04:00;
+FI"length;
+FI"	1198;
+FI"digest;
+F"%0538ae6133a658e5578e3dbd5277ed6dI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

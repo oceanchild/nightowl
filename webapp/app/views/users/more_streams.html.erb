@@ -1,0 +1,67 @@
+<% if @more_reviews != nil%>
+<% for _review in @more_reviews %>
+	<div class="stream-shell">
+		<%=hidden_field_tag 'msg_date', _review.date_created%>
+		<%=hidden_field_tag 'msg_id', _review.id%>
+		<div class="stream">
+			<div class="stream-more">»</div>
+			<div class="stream-avatar">
+				<%= image_tag @review_initiators[_review.initiator_id].profile.image.url(:thumb), :onerror=>"this.src='http://atutor.ca/atutor/files/modules/hello_world-0.4.jpg'" %>
+			</div>
+			<div class="stream-content">
+				<div class="stream-row author">
+					<span class="stream-user">
+						<%=_review.nickname%>
+					</span>说:
+				</div>
+				<div class="stream-row content">
+					<div class="stream-text">
+						<%= simple_format(_review.content) %>
+						<% if _review.image != nil %>
+						图片: 	<%= image_tag _review.image.url(:thumb) %><br />
+						点击后: 	<%= image_tag _review.image.url %><br />
+						<% end %>
+					</div>
+				</div>
+				<div class="stream-row tools">
+					<span class="stream-timestamp">
+						<% if Time.now.year.to_i == _review.date_created.year.to_i %>
+							<% if Time.now.month.to_i == _review.date_created.month.to_i %>
+								<% if Time.now.day.to_i == _review.date_created.day.to_i %>
+									<% if Time.now.hour.to_i == _review.date_created.hour.to_i %>
+										<% if Time.now.min.to_i == _review.date_created.min.to_i %>
+											刚才
+										<%else%>
+											<%= Time.now.min.to_i - _review.date_created.min.to_i %>&nbsp;分钟前
+										<%end%>
+									<%else%>
+										<%= Time.now.hour.to_i - _review.date_created.hour.to_i %>&nbsp;小时前
+									<%end%>
+								<%else%>
+									<%= Time.now.day.to_i - _review.date_created.day.to_i%>&nbsp;天前
+								<%end%>
+							<%else%>
+								<%= Time.now.month.to_i - _review.date_created.month %>&nbsp;月前
+							<%end%>
+						<%else%>
+							1年前
+						<%end%>
+					</span>
+					<span class="stream-actions">
+						<%if _review.initiator_id == current_user[:id]%>
+						<a href="#">
+							<span class="stream-del">
+								<input class="stream-del-identity" type="hidden" value="<%=_review.id%>" />
+								<i></i>
+								<b>删除</b>
+							</span>
+						</a>
+						<%end%>
+					</span>													 
+				</div>
+				<div class='clear'></div>
+			</div>
+		</div>
+	</div>
+<% end %>
+<% end %>

@@ -1,0 +1,16 @@
+<% content_for :header do %>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+	
+	<%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" %>
+	<script type="text/javascript">
+	
+	</script>
+<% end %>
+<%= render :partial => 'review_form' %>
+<br />
+<div id="reviews">
+<%= render :partial => 'reviews' %>
+</div>

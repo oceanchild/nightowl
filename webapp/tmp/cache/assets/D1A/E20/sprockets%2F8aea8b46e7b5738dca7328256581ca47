@@ -1,0 +1,18 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070086.669744:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%95e1579b6b235dec9a4d7a763a29c935I"logical_path;
+FI"home/ban_text.gif;
+TI"pathname;
+FI".$root/app/assets/images/home/ban_text.gif;
+FI"content_type;
+FI"image/gif;
+FI"
+mtime;
+FI"2012-04-14T01:14:05-04:00;
+FI"length;
+FI"
+11088;
+FI"digest;
+F"%6c9a26a75778ad6d15ab385c56a5f85bI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070086.6768878:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%606b14f30fc73bf66179982e95ac942bI"logical_path;
+FI"home/arrow_btn.gif;
+TI"pathname;
+FI"/$root/app/assets/images/home/arrow_btn.gif;
+FI"content_type;
+FI"image/gif;
+FI"
+mtime;
+FI"2012-04-14T01:14:05-04:00;
+FI"length;
+FI"949;
+FI"digest;
+F"%ce0e3c5801e07e88962609be0ed4a45fI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

@@ -1,0 +1,612 @@
+<% content_for :header do %>
+
+	<title>活动地图</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	
+	<%= stylesheet_link_tag "events.css" %>
+	
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_dragswitch.js" %>
+	<%= javascript_include_tag "common/topbar.js" %>
+	<%= javascript_include_tag "common/calendar.js" %>
+	<%= javascript_include_tag "events.js" %>
+	<%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=true&language=zh-CN&region=CN" %>
+	<%= javascript_include_tag "infobubble.js" %>
+	
+	<style>
+	.button, .button:visited {
+		position: relative;
+		padding: 5px 10px 6px;
+		background-color: #222222;
+		color: #fff;
+		text-decoration: none;
+		display: inline-block;
+		cursor: pointer;
+		border-radius: 2px;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+		-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+		-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+		text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+		border-bottom: 1px solid rgba(0,0,0,0.25);
+	}
+		.button:hover {
+			background-color: #111;
+			color: #fff;
+		}
+		.button:active {
+			//top: 1px;
+		}
+		.small, .small:visited {
+			font-size: 11px;
+		}
+		.button, .button:visited, .medium, .medium:visited {
+			font-size: 13px;
+			font-weight: bold;
+			line-height: 1;
+			text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+		}
+		.large, .large:visited {
+			font-size: 14px;
+			padding: 8px 14px 9px;
+		}
+		.super, .super:visited {
+			font-size: 34px;
+			padding: 8px 14px 9px;
+			border-radius: 6px;
+			-moz-border-radius: 6px;
+			-webkit-border-radius: 6px;
+		}
+		
+		.pink, .magenta:visited { background-color: #e22092; }
+		.pink:hover { background-color: #c81e82; }
+		.green, .green:visited { background-color: #91bd09; }
+		.green:hover { background-color: #749a02; }
+		.red, .red:visited { background-color: #e62727; }
+		.red:hover { background-color: #cf2525; }
+		.orange, .orange:visited { background-color: #ff5c00; }
+		.orange:hover { background-color: #d45500; }
+		.blue, .blue:visited { background-color: #2981e4; }
+		.blue:hover { background-color: #2575cf; }
+		.yellow, .yellow:visited { background-color: #ffb515; }
+		.yellow:hover { background-color: #fc9200; }
+	
+	.info-container {
+		margin: auto;
+		padding: 10px;
+		width: 450px;
+		height: 400px;
+		font-family: Microsoft Yahei;
+		background-color: #FEFEFE;
+		border-radius: 10px;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+	}
+	.info-container hr {
+		margin: 8px 0 8px 0;
+		width: 450px;
+		height: 1px;
+		color: #999999;
+		background-color: #999999;
+		border: 0;
+	}
+	.info-title {
+		position: relative;
+		width: 450px;
+		height: 22px;
+	}
+		.info-title span {
+			margin-top: 5px;
+			float: left;
+			height: 22px;
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 10px;
+			text-shadow: 0px 1px 1px #000000;
+			filter: dropshadow(color=#000000, offx=0, offy=1);
+		}
+	.info-content {
+		position: relative;
+		width: 450px;
+		height: 360px;
+	}
+		.info-content-left {
+			float: left;
+			width: 200px;
+			height: 360px;
+		}
+			.info-picture {
+				padding: 5px;
+				width: 190px;
+				height: 220px;
+			}
+				.info-picture-img {
+					border-radius: 6px;
+					-webkit-border-radius: 6px;
+					-moz-border-radius: 6px;
+					box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+					-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+					-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+					width: 190px;
+					height: 220px;
+				}
+			.info-stats {
+				padding: 5px;
+				height: 80px;
+			}
+			.info-stats-left, .info-stats-right {
+				float: left;
+				width: 95px;
+				height: 80px;
+			}
+				.info-stats-item {
+					display: inline-block;
+					margin-bottom: 5px;
+					width: 95px;
+					height: 20px;
+				}
+					.title {
+						font-size: 14px;
+						font-weight: bold;
+						line-height: 14px;
+					}
+					.number {
+						color: #222222;
+						font-size: 22px;
+						font-family: Constantia, Georgia;
+						line-height: 12px;
+					}
+					.join {
+						color: #348781;
+					}
+					.join-btn, .join-btn:visited { background-color: #348781; }
+					.join-btn:hover { background-color: #02554F; }
+					.follow {
+						color: #E78A61;
+					}
+					.follow-btn, .follow-btn:visited { background-color: #E78A61; }
+					.follow-btn:hover { background-color: #B5582F; }
+			.info-share {
+				padding: 5px;
+				width: 190px;
+				height: 20px;
+			}
+				.info-share-title {
+					margin-right: 5px;
+					float: left;
+					font-size: 14px;
+					line-height: 26px;
+					text-shadow: 1px 0px 2px #000000;
+					filter: dropshadow(color=#000000, offx=1, offy=1);
+				}
+				.info-share-icon {
+					padding: 1px;
+					float: left;
+					height: 20px;
+				}
+					.info-share-icon a {
+						margin-right: 5px;
+					}
+					.info-share-icon img {
+						border: 0;
+					}
+		.info-content-right {
+			margin-left: 10px;
+			float: left;
+			width: 240px;
+			height: 360px;
+			overflow-y: auto;
+		}
+			.info-info-left {
+				display: inline-block;
+				float: left;
+				width: 40px;
+				color: #222222;
+				font-size: 14px;
+				line-height: 22px;
+			}
+			.info-info-right {
+				display: inline-block;
+				float: left;
+				width: 180px;
+				color: #999999;
+				font-size: 14px;
+				line-height: 22px;
+			}
+				.info-info-right a {
+					margin-right: 5px;
+					color: #348781;//#E78A61;
+					display: inline-block;
+				}
+				.info-info-right a:hover {
+					text-decoration: underline;
+				}
+	</style>
+	
+	<script type="text/javascript">
+	    var map;
+	    var image;
+	    var datas = new Array();
+	    var curBubbleID = -1; //record which bubble is currently open
+	    
+		var myStyles = [
+			{featureType:"administrative",elementType:"all",stylers:[{saturation:0}]},
+			{featureType:"administrative.country",elementType:"all",stylers:[{visibility:"simplified"}]},
+			{featureType:"administrative.province",elementType:"all",stylers:[{visibility:"simplified"}]},
+			{featureType:"landscape",elementType:"all",stylers:[{saturation:-10}]},
+			{featureType:"poi",elementType:"all",stylers:[{visibility:"on"}]},
+			{featureType:"poi.park",elementType:"all",stylers:[{saturation:-10},{lightness:30},{visibility:"simplified"}]},
+			{featureType:"road",elementType:"all",stylers:[{saturation:-100}]},
+			{featureType:"road.highway",elementType:"geometry",stylers:[{saturation:0},{hue:"#5EAB1F"},{lightness:0}]},
+			{featureType:"road.highway",elementType:"label",stylers:[{visibility:"simplified"}]},
+			{featureType:"road.arterial",elementType:"all",stylers:[{saturation:-100},{lightness:20}]},
+			{featureType:"road.arterial",elementType:"label",stylers:[{visibility:"on"}]},
+			{featureType:"road.local",elementType:"label",stylers:[{visibility:"on"}]},
+			{featureType:"transit",elementType:"all",stylers:[{saturation:-100}]},
+			{featureType:"water",elementType:"all",stylers:[{hue:"#0089CF"},{saturation:-50},{lightness:30}]},
+			{featureType:"administrative.land_parcel",elementType:"all",stylers:[{visibility:"on"}]}
+		];
+		
+	    var markersArray = [];
+		<% for _event in @events %>
+			datas.push({
+				id: '<%= _event.id%>',
+				name: '<%= _event.theme %>',
+				lat: '<%= _event.lat %>',
+				lng: '<%= _event.lng %>',
+				event_date: '<%= _event.event_date %>',
+				address: '<%= _event.location %>',
+				cost: '<%= _event.cost %>',	
+				content_text: '<%= _event.introduction %>',
+				participants_num: '<%= _event.participants_num %>',
+				image: '/assets/event_icons/public/' + <%= _event.events_types_id %>  + '.png',
+				<% if _event.eventimages.first != nil%>
+					event_image: '<%= image_tag _event.eventimages.first.image.url(:small), :class=>'info-picture-img' %>'
+				<% end %>,
+				joinStatus: <% if current_user.event_ids.include?(_event.id)%>'取消参加'<%else%>'我要参加'<%end%>,
+				followStatus: <% if current_user.event_ids.include?(_event.id)%>'取消关注'<%else%>'我要关注'<%end%>
+			});
+		<% end %>
+		
+		var tmp = 0;
+		
+		function initialize() {
+		  var myOptions = {
+		    zoom: 12,
+		    center: new google.maps.LatLng(39.933586, 116.415733),
+		    disableDefaultUI: true,
+		    disableDoubleClickZoom: true,
+		    scrollwheel: true,
+		    maxZoom: 19,
+		    minZoom: 12,
+		    mapTypeId: google.maps.MapTypeId.ROADMAP,
+		    styles: myStyles,
+		    callback: function(){}
+		  };
+		  
+		  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		  
+		  setMarkers(map, datas);
+		  
+		  $(window).resize(function() {
+		  	google.maps.event.trigger(map, "resize");
+		  })
+		  
+		  google.maps.event.addListenerOnce(map, 'idle', function(){
+    		<%if @eventID != nil%>
+	    		for(i=0;i<markersArray.length;i++){
+	    			if (markersArray[i].eventid == <%= @eventID%>){
+	    				google.maps.event.trigger(markersArray[i], 'click');
+	    				break;
+	    			}
+	    		}
+    		<%end%>
+		  });
+		}
+		
+		function setMarkers(map, data) {
+		  // Add markers to the map
+		
+		  // Marker sizes are expressed as a Size of X,Y
+		  // where the origin of the image (0,0) is located
+		  // in the top left of the image.
+		
+		  // Origins, anchor positions and coordinates of the marker
+		  // increase in the X direction to the right and in
+		  // the Y direction down.
+		  var image = new google.maps.MarkerImage('/assets/event_icons/bar_pri.png',
+		      // This marker is 32 pixels wide by 37 pixels tall.
+		      new google.maps.Size(32, 37),
+		      // The origin for this image is 0,0.
+		      new google.maps.Point(0,0),
+		      // The anchor for this image is the base of the flagpole at 0,32.
+		      new google.maps.Point(0, 32));
+		  // var shadow = new google.maps.MarkerImage('/assets/event_icons/bar_pri.png',
+		      // // The shadow image is larger in the horizontal dimension
+		      // // while the position and offset are the same as for the main image.
+		      // new google.maps.Size(30, 37),
+		      // new google.maps.Point(10,10),
+		      // new google.maps.Point(0, 32));
+		      // Shapes define the clickable region of the icon.
+		      // The type defines an HTML <area> element 'poly' which
+		      // traces out a polygon as a series of X,Y points. The final
+		      // coordinate closes the poly by connecting to the first
+		      // coordinate.
+		  var shape = {
+		      coord: [0, 0, 40, 40],
+		      type: 'rect'
+		  };
+		  
+		  var infoBubbleMini = new InfoBubble(
+		  	{
+		  		minWidth: 200,
+		  		minHeight: 40,
+		  		padding: 0,
+		  		shadowStyle: 1,
+		  		disableAutoPan: true,
+		  	}
+		  );
+		  var infoBubble = new InfoBubble(
+		  	{
+		  		minWidth: 200,
+		  		minHeight: 40,
+		  		padding: 0,
+		  		shadowStyle: 1,
+		  		disableAutoPan: true,
+		  	}
+		  );
+
+		  for (var i = 0; i < data.length; i++) {
+		    
+		    var lat = data[i].lat;
+			var lng = data[i].lng;
+		    
+		    var myLatLng = new google.maps.LatLng(lat, lng);
+		    var marker = new google.maps.Marker({
+		    	eventid: data[i].id,
+		        position: myLatLng,
+		        map: map,
+		        // shadow: shadow,
+		        icon: data[i].image,
+		        shape: shape
+		        //title: data[i].name
+		        //zIndex: beach[3]
+		    });
+		    
+		    markersArray.push(marker);
+
+      		google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+		        return function() {
+		        	if(curBubbleID != i){
+		        		infoBubbleMini.setContent("<b style='margin: 10px 30px 10px 10px; display: inline-block'>"+data[i].name+"</b>");
+		          		infoBubbleMini.open(map, marker);
+		        	}else{}
+		        }
+		    })(marker, i));
+		    
+		    google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
+		        return function() {
+		          	infoBubbleMini.close();
+		        }
+		    })(marker, i));
+		      
+		    var newPixels;
+		    
+			google.maps.event.addListener(marker, 'click', (function(marker, i) {
+		        return function() {
+		        	if(curBubbleID != i) {
+						infoBubble.setContent(
+					    "<div class='info-container'>" +
+					    "<div class='info-title'>" +  
+					        "<span>"+ data[i].name +"</span>" +
+					    "</div>" +  
+					    "<hr />" + 
+					    "<div class='info-content'>" +
+					        "<div class='info-content-left'>" + 
+						        "<div class='info-picture'>"+ data[i].event_image +"</div>" +
+						        "<div class='info-stats'>" + 
+							        "<div class='info-stats-left'>" +
+								        "<span class='info-stats-item title join'>参加人数</span>" + 
+								        "<span class='info-stats-item number' id='joinnum'>"+ data[i].participants_num +"</span>" +
+								        "<a class='medium button join-btn' id=join_event_" + data[i].id +" onclick='joinEvent("+ data[i].id +","+i+")'>"+data[i].joinStatus+"</a>" +
+							        "</div>" +
+							        "<div class='info-stats-right'>" +
+								        "<span class='info-stats-item title follow'>关注人数</span>" + 
+								        "<span class='info-stats-item number'>180</span>" +
+								        "<a class='medium button follow-btn' id=follow_event_"+ data[i].id +" onclick='followEvent("+ data[i].id +","+i+")'>"+data[i].followStatus+"</a>" +
+							        "</div>" +
+						        "</div>" +
+						        "<div class='info-share'>" +
+							        "<span class='info-share-title'>分享到: </span>" +
+							        "<span class='info-share-icon'>" +
+								        "<a href='#'><img title='Q-Zone' src='http://comic.qq.com/doodle/styles/images/bottom/qzone.gif' /></a>" +
+								        "<a href='#'><img title='新浪微博' src='http://www.chinaexhibition.com/images/weibo.gif' /></a>" +
+								        "<a href='#'><img title='人人' src='http://images.monteamor.com/tpimg/Product/renren001_link%5B1%5D.gif' /></a>" +
+								        "<a href='#'><img title='开心' src='http://www.xinniangjie.com/image/forum/kaixin.png' /></a>" +
+							        "</span>" +
+						        "</div>" +
+					        "</div>" + 
+					        "<div class='info-content-right'>" +
+						        "<div class='info-info-left'>时间:</div>" +
+						        "<div class='info-info-right'>" + data[i].event_date + "</div>" +
+						        "<div class='info-info-left'>地点:</div>" +
+						        "<div class='info-info-right'>" + data[i].address + "</div>" +
+						        "<div class='info-info-left'>费用:</div>" +
+						        "<div class='info-info-right'>" + data[i].cost + "</div>" +
+						        "<div class='info-info-left'>简介:</div>" +
+						        "<div class='info-info-right'>" + data[i].content_text + "</div>" +
+						        "<div class='info-info-left'>标签:</div>" +
+						        "<div class='info-info-right'>" +
+							        "<a href='#'>标签1</a>" +
+							        "<a href='#'>标签2</a>" +
+							        "<a href='#'>标签3</a>" +
+							        "<a href='#'>标签4</a>" +
+							        "<a href='#'>标签5</a>" +
+							        "<a href='#'>标签6</a>" +
+							        "<a href='#'>标签7</a>" +
+							        "<a href='#'>标签8</a>" +
+						        "</div>" +
+					        "</div>" +
+					    "</div>" +
+					    "</div>"
+						);
+						curBubbleID = i;
+						infoBubbleMini.close();
+						infoBubble.open(map, marker);
+						
+						if($('#map-listing').hasClass('out')) {
+						    infoBubble.panCustom($('#map-listing').outerWidth()/2);
+						} else {
+						    infoBubble.pan();
+						}
+					}
+				}
+			})(marker, i));
+		  }		  
+		  
+		  // click anywhere else on the map to close the infoBubble
+		  google.maps.event.addListener(map, 'mousedown', function() {
+				infoBubble.close(); // why do we want to leave it open if user triggers map move action
+				curBubbleID = -1;
+		  });
+		  
+		  // toggle left event list bar trigger infoBubble pan to new position
+		  $('#map-listing-btn').click(function() {
+			if(curBubbleID != -1) {
+				if($('#map-listing').hasClass('out')) {
+					infoBubble.panCustom($('#map-listing').outerWidth()/2);
+				} else {
+					infoBubble.pan();
+				}
+			}
+		  });
+		  
+		  // trigger marker clicking event upon event listing item click
+		  $('#map-listing-content').delegate('.map-listing-item', 'click', function() {
+		  	google.maps.event.trigger(markersArray[$(this).index()], 'click');
+		  });
+		  
+		  // map filter item click close opening infoBubble
+		  $('#map-filters span').click(function() {
+			infoBubbleMini.close();
+			infoBubble.close();
+		  });
+		}
+		
+		function mapZoomIn() {
+			var currentZoom = map.getZoom();
+			map.setZoom(++currentZoom);
+		}
+		
+		function mapZoomOut() {
+			var currentZoom = map.getZoom();
+			map.setZoom(--currentZoom);
+		}
+		
+		function MapTypeSatellite() {
+			map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+		}
+		
+		function MapTypeRoadmap() {
+			map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+		}
+		
+		function MapTypeHybrid() {
+			map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+		}
+		
+		function MapTypeTerrain() {
+			map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+		}
+		
+		function MapLatLngToPixels(location) {
+			return overlay.getProjection().fromLatLngToContainerPixel(location);
+		}
+		function MapPixelsToLatLng(pixels) {
+			return overlay.getProjection().fromContainerPixelToLatLng(pixels);
+		}
+		
+		// resize map on window resizing, fix the map loading problem
+		$(window).resize(function() {
+			$('#map_canvas').width($(window).width());
+			$('#map_canvas').height($(window).height());
+			google.maps.event.trigger(map, 'resize');
+		});
+	</script>
+<% end %>
+
+<body onload="initialize()">
+
+<!-- Global Block :: start -->
+<div id="doc">
+	<%= render :file => '/common/topbar' %>
+	
+	<div id="map_canvas"></div><!--屏蔽google链接-->
+	<div id="map-listing">
+		<div id="map-listing-title">
+			<h3>活动列表</h3>
+			<hr />
+		</div>
+		<div id="map-listing-content">
+			<% for _event in @events %>
+			<div class="map-listing-item">
+				<img class="map-listing-icon" src="http://www.buildmypinnedsite.com/cdn/images/layout/pinning_icon.png" />
+				<div class="map-listing-text">
+					<!--ID: <%= _event.id %>-->
+					<%= _event.theme%>
+					<!--时间: <%= _event.event_date%>-->
+					<!--地址: <%= _event.location %>-->
+				</div>
+			</div>
+			<% end %>
+		</div>
+		<div id="map-listing-footer">
+			<div class="map-listing-paginator">page 1 2 3 4 5 6</div>
+		</div>
+		<div id="map-listing-btn"><img src="http://www.absolute-marquees.co.uk/site/images/slider_arrow.png" border="0" /><!--http://www.gersteinart.com/skin/frontend/default/gersteinart/images/slider-arrow-right.gif--></div>
+	</div>
+	<div id="map-footer" class="gradient round-corner">
+		<div id="map-tools">
+			<div id="map-controls">
+				<div class="zoom-control" id="zoom-out" onclick="mapZoomOut()"><img src="/assets/zoomOut.png" alt="-"></div>
+				<div class="zoom-control" id="zoom-in" onclick="mapZoomIn()"><img src="/assets/zoomIn.png" alt="+"></div>
+				<!--<input type='button' class="awesome medium" value='切换卫星地图' onclick="MapTypeSatellite()"/>
+				<input type='button' class="awesome medium" value='切换正常地图' onclick="MapTypeRoadmap()"/>		
+				<input type='button' class="awesome medium" value='切换混合地图' onclick="MapTypeHybrid()"/>-->
+				<div class="drag-range"></div>
+				<script type="text/javascript">
+				/* Drag Switch */
+				$(".drag-range").dragToEnvoke({
+					onFunc : function() {
+						MapTypeHybrid();
+						$('.drag-range .handle').html('<b>混 合</b>');
+					},
+					offFunc : function() {
+						MapTypeRoadmap();
+						$('.drag-range .handle').html('<b>道 路</b>');
+					},
+					balancePoint : 0.5,
+					handleText : "<b>道 路</b>",
+				});
+				</script>
+			</div>
+			<a href="#" id="filter-activate-btn">+</a>
+		</div>
+	</div>
+	<div id="map-filters">
+		<% for _tag in @tags %>
+			<span><%= _tag.name %></span>
+		<% end %>
+	</div>
+	<div class="updated-events-list">
+		<!--the div will contains feedback data from server-->
+	</div>
+</div>
+<!-- doc :: end -->
+</body>
+
+
+
+

@@ -1,0 +1,52 @@
+<%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" %>
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+
+<script type="text/javascript">
+	$(function() {
+		$("#target_user").autocomplete({
+				source: function( request, response ) {
+					$.ajax({
+			          url: "/users/autocomplete_users_friends",
+			          data: {nickname: request.term},
+			          dataType: "html",
+			          type: "GET",
+			          success: function(data){
+			              response(data.split('$'));
+			          }
+			        });
+				},
+				minLength: 2,
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				}
+			});
+	});
+
+
+</script>
+
+<%= form_tag(:action => :pending, :id=>@user_id ) do %>
+
+	target:<%= text_field_tag "target_user", "" %> <br>
+	message:<%= text_field_tag "message", "" %> <br>
+
+	<%= submit_tag "Add"%>
+	
+	<br/>-----<br/>
+	<input type="text" id="input"/>
+	
+	
+<%end%>
+
+<div id="images">
+
+</div>
+
+<div id='results'>
+</div>
+
+
+
+

@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1346707926.5325854:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%aefaa6fdf562710c3b19bf117489a351I"logical_path;
+FI"zoomOut.png;
+TI"pathname;
+FI"($root/app/assets/images/zoomOut.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-07T16:10:18-05:00;
+FI"length;
+FI"	1199;
+FI"digest;
+F"%bcda3e4662c0f65ffedaa060c5fb8feeI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

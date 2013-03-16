@@ -1,0 +1,607 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348276177.275592:@value{I"
+class:EFI"BundledAsset;
+FI"id;
+F"%a00b23f66759098f7f33c865235b126eI"logical_path;
+FI"users.js;
+TI"pathname;
+FI"*$root/app/assets/javascripts/users.js;
+FI"content_type;
+FI"application/javascript;
+FI"
+mtime;
+FI"2012-09-21T21:09:35-04:00;
+FI"	body;
+FI"2J$(document).ready(function() {
+	// global initiation :: initiate everything
+
+	init();
+
+	function init() {
+
+		init_calendar();
+		// initiate calendar
+		/* USERS PAGE specific components initiation */
+		init_details_panel();
+		// initiate details panel
+		init_fabu_box();
+		// initiate fabu box
+		init_tab_pages();
+		// initiate tab pages
+	}
+
+});
+
+/* =====================================================
+ // USER PAGE :: Detailed Information Panel Animation //
+ // ==================================================
+ */
+function init_details_panel() {
+	var panel_y = null;
+	var content_y = null;
+	var window_scroll_top = $(window).scrollTop();
+	// Hide the panel initially and set its position
+	$('.details-panel').hide().css('left', 20);
+	$('.streams.current').delegate('.stream:not(.active)', 'click', function() {
+		// Make the current item the only active item
+		$('.details-panel-item').html('');
+		//clear previous content
+		getEventDetails($('.hover input[name=event_id]').val());
+		$('.stream-shell .active').removeClass('active');
+		$(this).addClass('active');
+		// Add some content to the reading panel
+		// $('.details-panel-item').html($('.stream.active .stream-content').html());
+
+		// Calculate panel and panel content height then show it
+		panel_y = $(window).height() - 100;
+		content_y = panel_y - /*parseInt($('.details-panel-close').height())*/14 - 12;
+		showPanel();
+	});
+	$('.streams.current').delegate('.stream.active', 'click', function() {
+		$(this).removeClass('active');
+		// hide the details panel
+		hidePanel();
+	});
+
+	// Mouse hover over above & leaves the stream entries
+	$('.streams').delegate('.stream', 'hover', function() {
+		$(this).toggleClass('hover');
+	});
+
+	// Mouse press down on the stream entries
+	$('.streams').delegate('.stream', 'mousedown', function() {
+		$(this).addClass('mouse-down');
+	});
+	// Mouse release up on the stream entries, mouseout also triggers this event
+	$('.streams').delegate('.stream', 'mouseup', function() {
+		$(this).removeClass('mouse-down');
+	});
+	$('.streams').delegate('.stream', 'mouseout', function() {
+		$(this).removeClass('mouse-down');
+	});
+
+	// Details panel close btn actions
+	$('.details-panel-close').delegate('.close', 'click', function() {
+		$('.stream-shell .active').removeClass('active');
+		hidePanel();
+	});
+
+	// Stream delete btn actions
+	$(".streams").delegate('.stream-del', 'click', function(e) {
+		e.preventDefault();
+		// prevent default <a> tag from firing
+		e.stopPropagation();
+		// prevent other events from firing, in this case the details panel animation
+		hidePanel();
+		review_id = $(this).find('.stream-del-identity').val();
+		$(this).append('<input type=\"hidden\" />').load("reviews/delete", "review_id=" + review_id, function() {
+			$(this).closest(".stream-shell").animate({
+				height : 'toggle',
+				opacity : 'toggle',
+			}, 800, function() {
+				$(this).closest(".stream-shell").remove();
+			});
+		});
+	});
+
+	// Window scrolling actions
+	$(window).scroll(function() {
+		if (window_scroll_top == $(window).scrollTop()) {
+			if ($('.details-panel').hasClass('active')) {
+				$('.details-panel').css('left', 580 - $(window).scrollLeft());
+			} else {
+				$('.details-panel').css('left', 20 - $(window).scrollLeft());
+			}
+
+		}
+		window_scroll_top = $(window).scrollTop();
+	});
+	// Window resizing actions
+	$(window).resize(function() {
+		// Calculate panel and its content height
+		panel_y = $(window).height() - 100;
+		content_y = panel_y - parseInt($('.details-panel-close').height()) - 12;
+		// Resize the details panel
+		setTimeout(browserResizeDetailsPanel, 200);
+	});
+
+	function showPanel() {
+		// Set panel and its content height
+		$('.details-panel').css('height', panel_y);
+		$('.details-panel-content').css('height', content_y);
+		// Show the panel and animate it into view
+		$('.details-panel').stop().show().animate({
+			left : 580 - $(window).scrollLeft()
+		}, function() {
+			$('.details-panel').addClass('active');
+		});
+		// Hide the dashboard
+		$('.dashboard').css('display', 'none');
+	}
+
+	function hidePanel() {
+		// Move the panel off the screen and hide it when done
+		$('.details-panel').stop().animate({
+			left : 20 - $(window).scrollLeft()
+		}, function() {
+			$(this).hide();
+			$('.details-panel').removeClass('active');
+		});
+		// Show the dashboard
+		$('.dashboard').css('display', 'block');
+	}
+
+	function browserResizeDetailsPanel() {
+		// Set panel and its content height
+		$('.details-panel').css('height', panel_y);
+		$('.details-panel-content').css('height', content_y);
+		if ($('.details-panel').hasClass('active')) {
+			$('.details-panel').css('left', 580 - $(window).scrollLeft());
+		} else {
+			$('.details-panel').css('left', 20 - $(window).scrollLeft());
+		}
+	}
+
+	function getEventDetails(eid) {
+		// Ajax get the clicked event details
+		$('.details-panel-item').html("loading").load("/users/event_details", {
+			eid : eid
+		});
+	}
+
+}
+
+/* ====================================
+ // USER PAGE :: Page Fabu Box Items //
+ // =================================
+ */
+function init_fabu_box() {
+
+	// reusable variable definition
+	var fabuBoxDom = $('#fabu-wrapper .fabu-box');
+	var fabuSubjectDom = $('#fabu-wrapper .fabu-subject');
+	var fabuDescriptionDom = $('#fabu-wrapper .fabu-description');
+	var fabuTagDom = $('#fabu-wrapper .fabu-tag');
+	var fabuLocationDom = $('#fabu-wrapper .fabu-location');
+	var fabuPriceDom = $('#fabu-wrapper .fabu-price');
+	var fabuSubjectLength = 20;
+	var fabuDescriptionLength = 160;
+	var fabuSubjectDefaultVal = fabuSubjectDom.attr('placeholder');
+	var fabuDescriptionDefaultVal = fabuDescriptionDom.attr('placeholder');
+	var fabuTagDefaultVal = fabuTagDom.attr('placeholder');
+	var fabuLocationDefaultVal = fabuLocationDom.attr('placeholder');
+	var fabuPriceDefaultVal = fabuPriceDom.attr('placeholder');
+
+	// fabu module activate responses
+	fabuSubjectDom.focus(function() {
+		// fabu-media reposition
+		$('#fabu-media').css('margin-top', 0);
+		$('#fabu-media').removeClass('inside');
+		// expand and show the rest fabu sections
+		fabuDescriptionDom.slideDown(200);
+		$('.fabu-tools').slideDown(200);
+		$('#step-one-next-btn').show().addClass('active');
+		$('#fabu-submission').slideDown(200);
+	});
+
+	// fabu module deactivate responses
+	$('#doc').click(function() {
+		// if ($('#fabu-content-one').is(':hidden')) {
+			// $('.fabu-content').fadeOut(200, function() {
+				// $('#fabu-content-one').show();
+				// $('.fabu-btn').hide().removeClass('active');
+			// });
+		// }
+		if ($('#fabu-content-one').is(':visible')) {
+			revokeFabuBox();
+		}
+	});
+	$('#fabu-wrapper').click(function(e) {
+		e.stopPropagation();
+	});
+
+	// fabu-box onfocus event
+	fabuBoxDom.focus(function() {
+		// add focused class to the corresponding action object
+		if (!$(this).hasClass('focused')) {
+			$(this).addClass('focused');
+		}
+		// character counters toggle and display
+		if ($(this).hasClass('fabu-subject')) {
+			$('#description-letter-count').hide().removeClass('active');
+			$('#subject-letter-count').show().addClass('active');
+		} else if ($(this).hasClass('fabu-description')) {
+			$('#subject-letter-count').hide().removeClass('active');
+			$('#description-letter-count').show().addClass('active');
+		} else {
+		}
+		// remove fabu-box input default value
+		if ($(this).val() === this.defaultValue) {
+			$(this).val('');
+		}
+		// remove fabu-box placeholder value
+		$(this).attr('placeholder', '');
+	});
+
+	// fabu-box onblur event
+	fabuBoxDom.blur(function() {
+		// remove focused class to the corresponding action object
+		if ($(this).hasClass('focused')) {
+			$(this).removeClass('focused');
+		}
+		// reset fabu-box input default value
+		var inputDefaultVal = (function() {
+			if ($(this).hasClass('fabu-subject')) {
+				return fabuSubjectDefaultVal;
+			} else if ($(this).hasClass('fabu-description')) {
+				return fabuDescriptionDefaultVal;
+			} else if ($(this).hasClass('fabu-tag')) {
+				return fabuTagDefaultVal;
+			} else if ($(this).hasClass('fabu-location')) {
+				return fabuLocationDefaultVal;
+			} else if ($(this).hasClass('fabu-price')) {
+				return fabuPriceDefaultVal;
+			} else {
+			}
+		});
+		if ($(this).val() === this.defaultValue) {
+			$(this).val(inputDefaultVal);
+		}
+		// reset fabu-box placeholder value
+		$(this).attr('placeholder', inputDefaultVal);
+	});
+
+	// fabu-box step-one next-btn activation & keyup character count and input validation
+	fabuSubjectDom.charCount($('.fabu-tools .counter'), null, fabuSubjectLength);
+	fabuDescriptionDom.charCount($('.fabu-tools .counter'), null, fabuDescriptionLength);
+	fabuDescriptionDom.focus(function() {
+		if (fabuSubjectDom.val().replace(/[^x00-xff]/g, 'xx').length / 2 > fabuSubjectLength) {
+			fabuSubjectDom.focus();
+		}
+	});
+	$('.fabu-subject, .fabu-description').keyup(function() {
+		var val_length = $(this).val().replace(/[^x00-xff]/g, 'xx').length / 2;
+		if (val_length > ($(this).hasClass('fabu-subject') ? fabuSubjectLength : fabuDescriptionLength)) {
+			$(this).css('background', '#FFF3EF');
+		} else {
+			$(this).css('background', '#FFFFFF');
+		}
+		if (fabuSubjectDom.val() != fabuSubjectDefaultVal && fabuDescriptionDom.val() != fabuDescriptionDefaultVal && fabuSubjectDom.val().length > 0 && fabuDescriptionDom.val().length > 0) {
+			$('#step-one-next-btn').removeAttr('disabled').removeClass('disabled');
+		} else {
+			$('#step-one-next-btn').attr('disabled', 'disabled').addClass('disabled');
+		}
+	});
+
+	// fabu-box step-two next-btn activation
+	$('#fabu-content-two .fabu-box').change(function() {
+		if ($('#new-event-category').val() != 0) {
+			$('#step-two-next-btn').removeAttr('disabled');
+		} else {
+			$('#step-two-next-btn').attr('disabled', 'disabled');
+		}
+	});
+	
+	// fabu-box step-three submit-btn activation
+	$('#fabu-content-three .fabu-box').keyup(function() {
+		if (fabuLocationDom.val() != fabuLocationDefaultVal && fabuLocationDom.val().length > 0) {
+			$('#step-three-submit-btn').removeAttr('disabled');
+		} else {
+			$('#step-three-submit-btn').attr('disabled', 'disabled');
+		}
+	});
+
+	// fabu-box .fabu-%-trigger click event
+	$('.fabu-trigger').click(function(e) {
+		fabuSubjectDom.focus();
+		if ($(this).hasClass('photo-trigger')) {
+			$('#review_image').click();
+		} else if ($(this).hasClass('video-trigger')) {
+			$('#review_video').click();
+		} else if ($(this).hasClass('link-trigger')) {
+			$('#review_link').click();
+		} else {
+		}
+	});
+
+	// fabu-box fabu-media actions
+	$("#fabu-submission img.preview").mouseover(function() {
+		if ($(this).is(":visible") && !$('.fabu-content').is(':animated')) {
+			$("#fabu-submission img.delete_preview").fadeIn();
+		}
+	});
+	$("#fabu-submission img.delete_preview").mouseout(function() {
+		if ($(this).is(":visible") && !$('.fabu-content').is(':animated')) {
+			$(this).fadeOut();
+		}
+	});
+	$("#fabu-submission img.delete_preview").click(function() {
+		if ($(this).is(":visible")) {
+			$('#review_image').val(null);
+			$(this).hide();
+			$('#fabu-submission img.preview').hide();
+		}
+	});
+
+	// fabu-content slider control button actions
+	$('#step-one-next-btn').click(function() {
+		if (!$('.fabu-content').is(':animated')) {
+			$(this).hide().removeClass('active');
+			$('#step-two-previous-btn').removeAttr('disabled').show().addClass('active');
+			$('#step-two-next-btn').show().addClass('active');
+			$('#fabu-content-one').fadeOut(200, function() {
+				$('#fabu-content-two').fadeIn(400);
+			});
+		}
+	});
+	$('#step-two-previous-btn').click(function() {
+		if (!$('.fabu-content').is(':animated')) {
+			$(this).hide().removeClass('active');
+			$('#step-two-next-btn').hide().removeClass('active');
+			$('#step-one-next-btn').show().addClass('active');
+			$('#fabu-content-two').fadeOut(200, function() {
+				$('#fabu-content-one').fadeIn(400);
+			});
+		}
+	});
+	$('#step-two-next-btn').click(function() {
+		if (!$('.fabu-content').is(':animated')) {
+			$('#step-two-previous-btn').hide().removeClass('active');
+			$(this).hide().removeClass('active');
+			$('#step-three-previous-btn').removeAttr('disabled').show().addClass('active');
+			$('#step-three-reset-btn').removeAttr('disabled').show().addClass('active');
+			$('#step-three-submit-btn').show().addClass('active');
+			$('#fabu-content-two').fadeOut(200, function() {
+				$('#fabu-content-three').fadeIn(400, function() {
+					loadMap();
+				});
+			});
+		}
+	});
+	$('#step-three-previous-btn').click(function() {
+		if (!$('.fabu-content').is(':animated')) {
+			$(this).hide().removeClass('active');
+			$('#step-three-reset-btn').hide().removeClass('active');
+			$('#step-three-submit-btn').hide().removeClass('active');
+			$('#step-two-previous-btn').show().addClass('active');
+			$('#step-two-next-btn').show().addClass('active');
+			$('#fabu-content-three').fadeOut(200, function() {
+				$('#fabu-content-two').fadeIn(400);
+			});
+		}
+	});
+	$('#step-three-reset-btn').click(function() {
+		$('.next-btn, .submit-btn').attr('disabled', 'disabled');
+		$('#review_image').val(null);
+		$('#fabu-submission img.delete_preview').hide();
+		$('#fabu-submission img.preview').hide();
+		$('.fabu-content').fadeOut(200, function() {
+			$('#fabu-content-one').show();
+			$('.fabu-btn').hide().removeClass('active');
+			$('#step-one-next-btn').attr('disabled', 'disabled').show();
+			$('#new-event-subject').focus();
+		});
+	});
+
+	// Bind normal submission with ajax submission
+	bindAjaxSubmission();
+	//what does this do?
+	// Normal submission
+	$("#step-three-submit-btn").click(function() {
+		newStreamSubmission();
+	});
+}
+
+function revokeFabuBox() {
+	$('#fabu-wrapper .fabu-box').blur();
+	// hide the text counter
+	//$('.letter-restrict').hide();
+	// pull the fabu-media section inside of the input box
+	$('#fabu-media').css('margin-top', -39);
+	$('#fabu-media').addClass('inside');
+	// hide the rest fabu section
+	$('#fabu-wrapper .fabu-description').hide();
+	$('.fabu-tools .letter-count').hide();
+	$('#fabu-submission').hide();
+}
+
+function resetFabuBoxHint() {
+	//$('#fabu-wrapper .fabu-box').val('#fabu-wrapper .fabu-box'.defaultValue);
+	$('#fabu-wrapper .fabu-box').attr('placeholder', '您在干神马？。。。');
+}
+
+function setImageFabuBoxHint() {
+	//$('#fabu-wrapper .fabu-box').val('请输入照片描述');
+	$('#fabu-wrapper .fabu-box').attr('placeholder', '请输入照片描述');
+}
+
+function setVideoFabuBoxHint() {
+	//$('#fabu-wrapper .fabu-box').val('请输入视频描述');
+	$('#fabu-wrapper .fabu-box').attr('placeholder', '请输入视频描述');
+}
+
+function setLinkFabuBoxHint() {
+	//$('#fabu-wrapper .fabu-box').val('请输入链接描述');
+	$('#fabu-wrapper .fabu-box').attr('placeholder', '请输入链接描述');
+}
+
+/* ===============================
+ // USER PAGE :: Submit Actions //
+ // ============================
+ */
+function bindAjaxSubmission() {
+	var msgidfromcontroller = "";
+	var options = {
+		target : "#reviews",
+	};
+	$("#new_review").submit(function() {
+		$(this).ajaxSubmit(options);
+		return false;
+	});
+}
+
+function newStreamSubmission() {
+	// disable fabu-btn
+	$('input.fabu-btn').attr('disabled', 'disabled').addClass('disabled');
+
+	//setup upload target
+	$('#new_review').attr('target', 'upload_target');
+
+	// prepare data for fake local update
+	// prepare message for local
+	var message = $('#fabu-wrapper .fabu-box').val();
+	// prepare image for local
+	var image;
+	if ($('img.preview').is(':hidden')) {
+		image = "";
+	} else {
+		image = $('img.preview').attr('src');
+	}
+
+	// stream submit
+	document.getElementById('new_review').submit();
+
+	// rebind fabu-box character counting module to fabu-box
+	$('#fabu-wrapper .fabu-box').charCount($('span.counter'), $('input.fabu-btn'), 150);
+
+	var streamID;
+	$('#upload_target').load(function() {
+		streamID = $(this).contents().find('#messageID').val();
+
+		//construct new stream (review) html markup
+		constructStreamMarkup(streamID, message, image);
+		//construct the message stream
+
+		//revoking the fabu-box
+		revokeFabuBox();
+
+		//reset the message box
+		resetFabuBoxHint();
+
+		//clear the fabu-box message
+		$('#fabu-wrapper .fabu-box').val(null);
+
+		//clear the fabu-media image
+		$('#review_image').val(null);
+		$("img.delete_preview").hide();
+		$("img.preview").hide();
+
+		//lastly, unbind the "load" status !important
+		$(this).unbind('load');
+	});
+}
+
+function readURL(input) {
+	var ext = $('#review_image').val().split('.').pop().toLowerCase();
+	if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+		$('#review_image').val(null);
+		resetFabuBoxHint();
+		// order is important!
+		alert('invalid file type!');
+	} else {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				$('img.preview').attr('src', e.target.result).width(40)//150
+				.height(40)//200
+				.show();
+			};
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+}
+
+function constructStreamMarkup(msg_id, message, img_src) {
+	var newStream = $('#dummy-stream-shell .stream-shell').clone().removeClass('new-stream-template');
+	newStream.find('.stream-text p').html(message);
+	if (img_src != "") {
+		newStream.find('.stream-text').append('<img src=\"' + img_src + '\" style=\"max-width: 400px; max-height: 400px; border: 0\" />');
+	}
+	newStream.find('.stream-del-identity').val(msg_id);
+	//newStream.prependTo('.streams.current').fadeIn(1500);
+	newStream.prependTo('.streams.current').animate({
+		height : 'toggle',
+		opacity : 'toggle',
+	}, 400);
+	//need to decide which effect is better
+}
+
+/* ========================================
+ // USER PAGE :: Page Stream Filter Tabs //
+ // =====================================
+ */
+function init_tab_pages() {
+	$('#streams-filter-tabs li').click(function() {
+		$('#streams-filter-tabs li').removeClass('active');
+		$(this).addClass('active');
+
+		if ($('#streams-filter-tabs li').index($(this)) == 0) {
+			if (!$('#all-streams').hasClass('current')) {
+				$('#all-streams').addClass('current');
+				$('#my-streams').removeClass('current');
+				$('#atme-streams').removeClass('current');
+			}
+		}
+		if ($('#streams-filter-tabs li').index($(this)) == 1) {
+			if (!$('#my-streams').hasClass('current')) {
+				$('#all-streams').removeClass('current');
+				$('#my-streams').addClass('current');
+				$('#atme-streams').removeClass('current');
+			}
+		}
+		if ($('#streams-filter-tabs li').index($(this)) == 2) {
+			if (!$('#atme-streams').hasClass('current')) {
+				$('#all-streams').removeClass('current');
+				$('#my-streams').removeClass('current');
+				$('#atme-streams').addClass('current');
+				render_atme_streams();
+				//need to be fixed, now renders everytime tab clicked
+			}
+		}
+
+	});
+}
+
+/*===========================================================================================
+// for newly added stream items to possess the same mouse action effects as the old items //
+// put outside of $(document).ready() made it possible to be called from elsewhere       //
+// ======================================================================================
+*/
+// some of these patches can be resolved by using .delegate() method (it applies to newly added elements as well)
+// update, as of JQuery 1.7, on() method is preferred
+// == cleaned-==
+;
+;
+TI"asset_paths;
+F[I"*$root/app/assets/javascripts/users.js;
+FI"dependency_paths;
+F[{I"	path;
+FI"*$root/app/assets/javascripts/users.js;
+FI"
+mtime;
+FIu:	Time�"���1&
+:@_zoneI"EDT;
+T:nano_numi�:nano_deni:submicro"IP:offseti���I"hexdigest;
+F"%bfaff22587a854f133c50f6513a86f6dI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

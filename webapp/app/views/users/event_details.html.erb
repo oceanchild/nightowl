@@ -1,0 +1,13 @@
+<b><%= @selected_event.theme%></b>
+</br></br>
+<%= @selected_event.introduction%>
+</br></br>
+<% if @selected_event.eventimages.first != nil%>
+	<%= image_tag @selected_event.eventimages.first.image.url(:small)%>
+<% end %>
+</br></br>
+
+
+<b><%= link_to "去地图上看详情", :controller=>'events', :action=>'index', :eventID=>@selected_event.id %></b>
+
+</br></br>

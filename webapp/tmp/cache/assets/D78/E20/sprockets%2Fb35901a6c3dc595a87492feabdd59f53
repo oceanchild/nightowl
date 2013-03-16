@@ -1,0 +1,18 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1347070086.6186132:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%e8263261086539e1921b06a2a22c3ffcI"logical_path;
+FI"home/background.jpg;
+TI"pathname;
+FI"0$root/app/assets/images/home/background.jpg;
+FI"content_type;
+FI"image/jpeg;
+FI"
+mtime;
+FI"2012-04-14T01:14:05-04:00;
+FI"length;
+FI"
+53647;
+FI"digest;
+F"%784744c572b06d9795c88ab129c0c2edI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

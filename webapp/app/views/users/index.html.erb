@@ -1,0 +1,330 @@
+<% content_for :header do %>
+
+	<title>用户首页</title>
+	
+	<%= stylesheet_link_tag "users.css" %>
+	<!--<%= stylesheet_link_tag "fullcalendar.css" %>-->
+	
+	<%= javascript_include_tag "jquery_lib/jquery_latest.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_ui.min.js" %>
+	<%= javascript_include_tag "jquery_lib/jquery_charcount.js" %>
+	<%= javascript_include_tag "common/topbar.js" %>
+	<%= javascript_include_tag "common/calendar.js" %>
+	<%= javascript_include_tag "users.js" %>
+	
+	<%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" %>
+	
+	<script type="text/javascript">
+		//self.setInterval("read_new_message()",5000);
+		var loading = "<img src='/assets/load.gif' alt='loading...' />";
+		var loadUrl = "/reviews/new_message";
+		var msgUrl = "/reviews/get_message";
+		var messageArr = new Array();
+		function message(id, initiator_name, initiator_image, content, date_time, image, category){
+			this.id = id;
+			this.initiator_name = initiator_name;
+			this.initiator_image = initiator_image;
+			this.content = content;
+			this.date_time= date_time;
+			this.image = image;
+			this.category = category;
+		}
+		
+		//push_messages read the new messages and put them on web
+		function push_messages(){
+			//var message_num = document.getElementById('msg_num').value;//read the hidden field passed from _outgoingmessage and save how many messages are saved.
+			var message_num = messageArr.length;
+			if (message_num>0){ 
+				for(i=0;i<message_num;i++){
+					var initiator = messageArr[i].initiator_name;
+					var content = messageArr[i].content;
+					var date = messageArr[i].date_time;
+					var id = messageArr[i].id;
+					var nickname = '??';
+					
+					if (initiator.length > 0){
+						//messageArr.push(new message(id, initiator, 'image_url', content, date, 'image', '2'))
+						oldHTML = document.getElementById('streams').innerHTML;
+						newHTML = '<input id=msg_date name=msg_date type=hidden value=/><input id=msg_id name=msg_id type=hidden value=' + id + ' /><div class="stream"><div class="stream-more">»</div><div class="stream-avatar"><%=image_tag '/assets/avatar_test.jpg'%></div><div class="stream-content"><div class="stream-row author"><span class="stream-user">'+nickname+'</span>说:</div><div class="stream-row content"><div class="stream-text">'+content+'</div></div><div class="stream-row tools"><span class="stream-timestamp">刚才</span><span class="stream-actions"><a href="/reviews/delete/' + id + '"><span class="stream-del"><i></i><b>删除</b></span></a></span></div></div></div>';// + oldHTML;
+						// newHTML ='<input id=msg_date name=msg_date type=hidden value=/>' + '<input id=msg_id name=msg_id type=hidden value=' + id + '/>' + '<li class=stream top><div class=stream-more>»</div><div class=stream-avatar><%=image_tag '/assets/avatar_test.jpg'%></div><div class=stream-text>用户' + initiator + '说:' + content +'</div><div class=clear></li>' + oldHTML;ocument.getElementById('msg_more').innerHTML = newHTML;
+						document.getElementById('msg_date').value = date; //give the msg_date field date value 
+					}else{}
+				}//end of loop
+				messageArr.splice(0, messageArr.length);
+				document.getElementById('streams-new-btn').value = 'Review(' + messageArr.length + ')';
+			}else{} 
+		}
+		
+		//push_post_message: when user publish a message, the message will be pushed into the message stream here
+		function push_post_message(){
+			var initiator = document.getElementById('msg_post_initiator_id').value;
+			var content = document.getElementById('msg_post_content').value;
+			var date = document.getElementById('msg_post_date_created').value;
+			var id = document.getElementById('msg_post_id').value;
+			var nickname = '<%=current_user[:nickname]%>';
+	
+			oldHTML = document.getElementById('streams').innerHTML;
+			newHTML = '<input id=msg_date name=msg_date type=hidden value=/><input id=msg_id name=msg_id type=hidden value=' + id + ' /><div class="stream"><div class="stream-more">»</div><div class="stream-avatar"><%=image_tag '/assets/avatar_test.jpg'%></div><div class="stream-content"><div class="stream-row author"><span class="stream-user">'+nickname+'</span>说:</div><div class="stream-row content"><div class="stream-text">'+content+'</div></div><div class="stream-row tools"><span class="stream-timestamp">刚才</span><span class="stream-actions"><a href="/reviews/delete/' + id + '"><span class="stream-del"><i></i><b>删除</b></span></a></span></div></div></div>';// + oldHTML;
+			//document.getElementById('streams').innerHTML = newHTML;
+			var new_review_push = document.createElement('div');
+			$(new_review_push).addClass('stream-shell').append(newHTML);
+			$('#streams').prepend(new_review_push); //chaolu's fix, probably a better approach than updating newHTML with additional oldHTML everytime
+			callableStreamActions(); //initializing mouse action effects for newly added item
+			document.getElementById('msg_date').value = date;
+		}
+		
+		//read_new_message: browser calls this method to get latest messages from controller
+		function read_new_message(){
+			document.getElementById('streams-new-btn').value = 'Review(' + messageArr.length + ')';
+			if(messageArr.length == 0){ //if there are new messages in array, means not been read, then do not Ajax controller
+				$("#field_for_hidden_data")
+					.load(msgUrl, "lastmsg_date="+$("#msg_date").val()+'&lastmsg_id='+$("#msg_id").val(), function(){
+						var message_num = document.getElementById('msg_num').value;//read the hidden field passed from _outgoingmessage and save how many messages are saved.
+						if (message_num>0){
+							for(i=0;i<message_num;i++){
+								var initiator = document.getElementById('msg_new_initiator_id_'+i.toString()).value;
+								var content = document.getElementById('msg_new_content_'+i.toString()).value;
+								var date = document.getElementById('msg_new_date_created_'+i.toString()).value;
+								var id = document.getElementById('msg_new_id_'+i.toString()).value;
+							
+								if (initiator.length > 0){
+									messageArr.push(new message(id, initiator, 'image_url', content, date, 'image', '2'));
+								}else{}
+							}	
+						}else{}						
+					});
+			}
+		}
+
+		$('#streams-new-btn').click(function(){
+			push_messages();
+			
+			//messageArr.pop();
+			// document.getElementById('new_review_btn').value = 'Review(' + messageArr.length + ')';
+		});
+		
+		function render_atme_streams(){
+			$("#atme-streams").html(loading).load("/users/atme_streams");
+		}
+	</script>
+	<style type="text/css">
+		/* css for datetimepicker */
+		#small-calendar, .ui-datepicker{ font-size: 18px; }
+		.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+		.ui-timepicker-div dl { text-align: left; }
+		.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+		.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+		.ui-timepicker-div td { font-size: 90%; }
+		.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+	</style>
+	<script type="text/javascript">
+	// autocomplete
+	$(function() {
+		function split( val ) {
+			return val.split( "@" );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+		// don't navigate away from the field on tab when selecting an item
+		$("#comment").bind( "keydown", function( event ) {
+			// alert(event.keyCode);
+			if ( event.keyCode === $.ui.keyCode.TAB &&
+					$( this ).data( "autocomplete" ).menu.active ) {
+				event.preventDefault();
+			}
+			
+		}).autocomplete({
+			source: function( request, response ) {
+				$.ajax({
+		          url: "/users/autocomplete_users",
+		          data: {nickname: extractLast(request.term)},
+		          dataType: "html",
+		          type: "GET",
+		          success: function(data){
+		          	if (data.length > 1){
+		          		response(data.split('$'));
+		          	}
+		          }
+		        });
+			},
+			search: function() {
+				// custom minLength
+				var term = extractLast( this.value );
+				var term1 = term.charAt(0);
+				if ( term.length < 2 || this.value.indexOf("@") < 0) {
+					return false;
+				}
+			},
+			focus: function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select: function( event, ui ) {
+				var terms = split( this.value );
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push( ui.item.value );
+				// add placeholder to get the comma-and-space at the end
+				terms.push( "" );
+				var msg = terms.join(" @")
+				this.value = $.trim(msg.substring(0, msg.length-1));
+				return false;
+			}
+		});
+	});
+	</script>
+	<script type="text/javascript">
+	// page loading
+	var currentPage = 1
+
+	function checkScroll() {
+	  if (nearBottomOfPage()) {
+	    currentPage ++;
+	    $.ajax({
+          url: "/users/more_streams",
+          data: {page: currentPage},
+          dataType: "html",
+          type: "GET",
+          success: function(data) {
+          		$(data).appendTo($(".streams.current"));
+        		callableStreamActions();
+          }
+        });
+	  }
+	}
+	
+	function nearBottomOfPage() {
+	  return scrollDistanceFromBottom() < 100;
+	}
+	
+	function scrollDistanceFromBottom(argument) {
+	  return $(document).height() - ($(window).height() + $(window).scrollTop());
+	}
+	
+	$(window).scroll(function(){
+		if (<%= @paginated_reviews.total_pages %> > currentPage || $("input.totalPages").val() > currentPage)
+		{
+			checkScroll();
+		} else
+		{
+			$("p#loading").hide();
+		}
+		});
+	</script>
+<% end %>
+
+<body>
+
+<!-- Global Block :: start -->
+<div id="doc">
+	<%= render :file => '/common/topbar' %>
+	
+	<!-- page-wrapper :: start-->
+	<div id="page-wrapper">
+		<div id="page">
+			<div id="page-content">
+				<div class="column" id="page-left">
+					
+					<%=render :partial=>'submit'%>
+					
+					<div id="streams-wrapper" style="background-color: #e6e6dc; -moz-border-radius-topright: 15px; -webkit-border-top-right-radius: 15px; border-top-right-radius: 15px; -moz-border-radius-bottomright: 15px; -webkit-border-bottom-right-radius: 15px; border-bottom-right-radius: 15px; -moz-border-radius-bottomleft: 15px; -webkit-border-bottom-left-radius: 15px; border-bottom-left-radius: 15px; ">
+						<div id="streams-content" class="incoming">
+							<div id="streams-loading" style="display: none;">载入中...</div>
+							<span id='loading_img_and_data'></span><!--new data will be loaded here first as well as the loading image. Loaded data are in hidden fields-->
+							<!--<span id='msg_more'></span>--><!--pushed messages will be insert in this div by function push_post_message()-->
+							<div id="streams-filter-tabs">
+								<ul class="filter-tabs">
+									<li class="active"><div class="filter-tab">全部信息</div></li>
+									<li><div class="filter-tab">我关注的</div></li>
+									<li><div class="filter-tab">关于我的</div></li>
+								</ul>
+							</div>
+							<div class="streams-new-btn">新信息(0)</div>
+							<div id="all-streams" class="streams current notice-new">
+								<%= render :partial => "users/all_streams" %> 
+							</div>
+							<div id="my-streams" class="streams">
+								<%= render :partial => "users/my_streams" %>
+							</div>
+							<div id="atme-streams" class="streams">
+								<%= render :partial => "users/atme_streams" %>
+							</div>
+							<div id="dummy-stream-shell" style="display: none;">
+								<%= render :partial => "users/new_stream" %>
+							</div>
+							<p id="loading">Loading more page results...</p>
+						</div>
+					</div>
+				</div>
+				<div class="details-panel-wrapper">
+					<div class="details-panel-shell">
+						<div class="details-panel">
+							<div class="details-panel-container">
+								<div class="details-panel-close">
+									<a class="close" style="cursor: pointer; "><span>×</span></a>
+									<div class="clear"></div>
+								</div>
+								<div class="details-panel-content">
+									<div class="details-panel-item"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="column" id="page-right">
+					<div class="dashboard" style="display: block; ">
+						<div class="dashboard-content">
+							<div class="dashboard-item">
+								<div id="user-avatar">
+									<% if current_user.profile.image.size != nil %>
+										<%= image_tag current_user.profile.image.url(:small) %><br />
+									<% else %>
+										<%= image_tag 'common/user_default_male.png' %>
+									<% end %>
+								</div>
+								<div id="user-info">
+									<h2><%= current_user["nickname"] %></h2>
+									<span>朝阳区，北京</span>
+									<dd class="fans"><span>粉丝</span><div class="verbar"></div><span><%= current_user["fans_num"] %></span></dd>
+									<dd class="friends"><span>朋友</span><div class="verbar"></div><span><%= current_user["friends_num"] %></span></dd>
+									<dd class="follows"><span>关注</span><div class="verbar"></div><span><%= current_user["follow_num"] %></span></dd>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<hr />
+							<div class="dashboard-item">
+								<div id="user-tags">
+									<h3>标签</h3>
+									
+								</div>
+							</div>
+							<hr />
+							<div class="dashboard-item" id="user-info-details">
+								<h3>个人信息</h3><br />
+								<div class="dashboard-content">
+
+								</div>
+							</div>
+							<div class="dashboard-item" id="user-suggestions">
+								<h3>用户推荐</h3><br />
+								<div class="dashboard-content" >
+									<% @all_events.each do |_event|%>
+										<%= _event.theme%>--<%=_event.nickname%><br>
+									<%end%>
+								</div>
+							</div>
+							<div id="debugger"></div>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<!-- page-wrapper :: end-->
+</div>
+<!-- Global Block :: end -->
+
+</body>

@@ -1,0 +1,14 @@
+时间: <%= @event.event_date %><br />
+地点: <%= @event.location %><br />
+主题: <%= @event.theme %><br />
+费用: <%= @event.cost %><br />
+<% if @event.tags.length != 0%>
+标签: <%= @event.tags[0].name %><br />
+<% end %>
+坐标: <%= @event.lat %>, <%= @event.lng%><br />
+介绍: <%= @event.introduction %><br />
+<% for _image in @event.eventimages do %>
+	图片(small): <%= image_tag _image.image.url() %><br />
+	图片(thumbnail): <%= image_tag _image.image.url(:thumb) %><br />
+	图片(original): <%= image_tag _image.image.url(:original) %><br />		
+<% end %>

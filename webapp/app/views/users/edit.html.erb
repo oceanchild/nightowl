@@ -1,0 +1,17 @@
+Email-------------<%=@u_email%><br>
+Nickname------<%=@u_nickname%><br>
+friends_num---<%=@u_friends_num%><br>
+fans_num-----<%=@u_fans_num%><br>
+follow_num----<%=@u_follow_num%><br>
+
+
+
+<%= form_tag(:action => :update, :id=>@user_id ) do %>
+
+	new email:<%= text_field_tag "u_email", "" %> <br>
+	nickname:<%= text_field_tag "u_nickname", "" %> <br>
+
+	<%= submit_tag "Update"%>
+	
+<%end%>
+
