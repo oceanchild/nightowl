@@ -1,4 +1,4 @@
-<b><%= @selected_event.theme%></b>
+<h2><b><%= link_to @selected_event.theme, :controller=>'events', :action=>'index', :eventID=>@selected_event.id %></b></h2>
 </br></br>
 <%= @selected_event.introduction%>
 </br></br>
@@ -8,6 +8,6 @@
 </br></br>
 
 
-<b><%= link_to "去地图上看详情", :controller=>'events', :action=>'index', :eventID=>@selected_event.id %></b>
+<b><%= link_to "Go to event map", :controller=>'events', :action=>'index', :eventID=>@selected_event.id %></b>
 
 </br></br>

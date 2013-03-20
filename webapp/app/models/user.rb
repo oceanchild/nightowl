@@ -30,12 +30,12 @@ class User < ActiveRecord::Base
   
   def self.authenticate(email, password)
     user = find_by_email(email)
-    return user if user && user.authenticated?(password)
+    return user if user && user.authenticated?(email, password)
   end
   
-  def authenticated?(password)
+  def authenticated?(email, password)
     # self.hashed_password == password + self.created_at.to_s.split(" ")[0].split("-")[1] + self.email
-    (self.hashed_password == encrypt(password + self.email)) && (self.blocked == false)
+    (self.hashed_password == encrypt(password + email)) && (self.blocked == false)
   end
   
   def cropping?

@@ -206,11 +206,18 @@
 						<% end %>
 					</div>
 					<div class="registerbox">
-						<input type="text" placeholder="邮 箱" />
-						<input type="text" placeholder="昵 称" />
-						<input type="text" placeholder="密 码" />
-						<input type="text" placeholder="验证密码" />
-						<input type="button" class="button" id="register" value="注 册" />
+						<%= form_for @user, :url => { :controller => "users", :action => "create" } do |f| %>
+							<%= f.text_field :email, :placeholder => '邮 箱' %>
+							<!-- <input type="text" placeholder="邮 箱" /> -->
+							<%= f.text_field :nickname, :placeholder => '昵 称' %>
+							<!-- <input type="text" placeholder="昵 称" /> -->
+							<%= f.password_field :password, :placeholder => '密 码' %>
+							<!-- <input type="text" placeholder="密 码" /> -->
+							<%= f.password_field :password_confirmation, :placeholder => '验证密码' %>
+							<!-- <input type="text" placeholder="验证密码" /> -->
+							<%= f.submit '注 册', :id => 'register' %>
+							<!-- <input type="button" class="button" id="register" value="注 册" /> -->
+						<% end %>
 					</div>
 				</div>
 			</div>		

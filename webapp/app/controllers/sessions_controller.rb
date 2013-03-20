@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     else
       flash.now[:alert] = "Invalid login/password combination"
       # render :action => 'new'
-      redirect_to :controller => 'login', :action => 'index', :notice => "Invalid login/password combination"
+      redirect_to :controller => 'login', :action => 'index', :notice => "Invalid login password combination"
     end
   end
   

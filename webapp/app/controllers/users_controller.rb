@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(params[:user])
-    if @user.save
+    if @user.save && @user.create_profile
       flash[:notice] = 'User successfully added.'
       # if params[:user][:image].blank?
         # redirect_to root_path
@@ -17,6 +17,7 @@ class UsersController < ApplicationController
       UserMailer.registration_confirmation(@user).deliver
       redirect_to :controller => 'sessions', :action => 'create', :email => params[:user][:email], :password => params[:user][:password]
     else
+      @user.rollback
       render :action => 'new'
     end
   end
